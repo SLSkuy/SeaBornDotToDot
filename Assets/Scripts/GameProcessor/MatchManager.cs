@@ -19,7 +19,7 @@ namespace GameProcessor
         #region 事件
         
         public event Action OnNoneAvailableMatches;
-        public event Action OnCellMatch;
+        public event Action<CellType> OnCellMatch;
 
         #endregion
 
@@ -74,7 +74,7 @@ namespace GameProcessor
             // 绘制折线
             _linkVisualizer?.DrawPath(path);
 
-            OnCellMatch?.Invoke();
+            OnCellMatch?.Invoke(_firstSelected.type);
             _firstSelected.Clear();
             _secondSelected.Clear();
         }
