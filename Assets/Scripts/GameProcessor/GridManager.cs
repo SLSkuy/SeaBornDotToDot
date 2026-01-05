@@ -36,6 +36,9 @@ namespace GameProcessor
                 return;
             }
             Instance = this;
+            
+            // 锁定帧率
+            Application.targetFrameRate = 60;
         }
 
         private void Start()
@@ -167,7 +170,7 @@ namespace GameProcessor
             OnCellClicked(cell);
         }
 
-        public void OnCellClicked(DotToDotCell cell)
+        private void OnCellClicked(DotToDotCell cell)
         {
             if (_firstSelected == null)
             {
@@ -211,7 +214,7 @@ namespace GameProcessor
 
         #region 连线检测
 
-        public bool CanLink(DotToDotCell a, DotToDotCell b)
+        private bool CanLink(DotToDotCell a, DotToDotCell b)
         {
             if (CheckStraight(a, b))
                 return true;
@@ -331,5 +334,89 @@ namespace GameProcessor
         }
 
         #endregion
+        
+        #region 元素刷新功能
+
+        /// <summary>
+        /// 刷新未被消除的元素
+        /// </summary>
+        public void ShuffleRemainingCells()
+        {
+            // 1. 收集未被消除的元素
+            List<CellType> remainingTypes = new List<CellType>();
+            List<DotToDotCell> remainingCells = new List<DotToDotCell>();
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    var cell = _cells[x, y];
+                    if (!cell.IsEmpty)
+                    {
+                        remainingTypes.Add(cell.type);
+                        remainingCells.Add(cell);
+                    }
+                }
+            }
+
+            if (remainingTypes.Count == 0)
+                return; // 全部消除，无需刷新
+
+            // 2. 打乱元素类型
+            for (int i = 0; i < remainingTypes.Count; i++)
+            {
+                int rand = Random.Range(i, remainingTypes.Count);
+                (remainingTypes[i], remainingTypes[rand]) = (remainingTypes[rand], remainingTypes[i]);
+            }
+
+            // 3. 重新赋值
+            for (int i = 0; i < remainingCells.Count; i++)
+            {
+                DotToDotCell cell = remainingCells[i];
+                CellType type = remainingTypes[i];
+                cell.Set(type, sprites[(int)type]);
+            }
+        }
+
+        #endregion
+
+        #region 可消除检测
+
+        /// <summary>
+        /// 检测当前网格中是否存在可消除的元素
+        /// </summary>
+        /// <returns>存在可消除元素返回true，否则false</returns>
+        public bool HasAvailableMatches()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    DotToDotCell a = _cells[x, y];
+                    if (a.IsEmpty) continue;
+
+                    // 只检查右边和下边，避免重复
+                    for (int i = x; i < width; i++)
+                    {
+                        for (int j = y; j < height; j++)
+                        {
+                            if (i == x && j == y) continue;
+
+                            DotToDotCell b = _cells[i, j];
+                            if (b.IsEmpty) continue;
+
+                            if (a.type != b.type) continue;
+
+                            if (CanLink(a, b))
+                                return true; // 找到可消除的一对
+                        }
+                    }
+                }
+            }
+            return false; // 没有可消除的元素
+        }
+
+        #endregion
+
     }
 }
