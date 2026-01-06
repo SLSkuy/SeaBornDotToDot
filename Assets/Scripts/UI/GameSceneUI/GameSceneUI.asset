@@ -15,3 +15,7 @@ MonoBehaviour:
   uiToRegister:
   - isEnableOnRegister: 0
     uiPrefab: {fileID: 8054469964088213526, guid: 38d2e990d9aada549a02dcf7d9d836e6, type: 3}
+  - isEnableOnRegister: 1
+    uiPrefab: {fileID: 6722130228795938017, guid: e113c2fb2e04fba4b93c682e684e6fbf, type: 3}
+  - isEnableOnRegister: 0
+    uiPrefab: {fileID: 9186608704996300363, guid: b51c921795870794e812658a5a09f43f, type: 3}

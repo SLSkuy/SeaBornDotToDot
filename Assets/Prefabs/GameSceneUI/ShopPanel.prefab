@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -280}
+  m_AnchoredPosition: {x: 0, y: -230}
   m_SizeDelta: {x: 350, y: 80}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &3633857077778976736
@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -280}
+  m_AnchoredPosition: {x: 0, y: -230}
   m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4089681582428598716
@@ -276,7 +276,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -550, y: -200}
+  m_AnchoredPosition: {x: -440, y: -135}
   m_SizeDelta: {x: 850, y: 850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4191976879253052596
@@ -352,8 +352,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1500, y: 900}
+  m_AnchoredPosition: {x: -220, y: -215}
+  m_SizeDelta: {x: 1350, y: 850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1305676851668180559
 CanvasRenderer:
@@ -575,8 +575,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4034548349471835730}
   - component: {fileID: 6428720604089177300}
+  - component: {fileID: 5406634271039719450}
+  - component: {fileID: 2711366806741905756}
   m_Layer: 5
-  m_Name: ShopWindow
+  m_Name: ShopPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -614,13 +616,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e7aa6f140c4bfcacb436b782b95461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.GameSceneUI.ShopWindow
-  animIn: {fileID: 0}
-  animOut: {fileID: 0}
-  uiControllerID: ShopWindow
+  animIn: {fileID: 5406634271039719450}
+  animOut: {fileID: 2711366806741905756}
+  uiControllerID: ShopPanel
   isVisible: 0
   properties:
     priority: 0
-    hideOnForegroundLost: 0
-    isPopup: 1
   bargainButton: {fileID: 3310287200195472378}
   exitButton: {fileID: 1035088150370258838}
+--- !u!114 &5406634271039719450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8054469964088213526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068e6e3b14664df6bf043ecf48dc70c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Animation.PanelPopInAni
+  currentDir: 0
+  moveDuration: 0.4
+  scaleDuration: 0.25
+  overshootScale: 1.05
+--- !u!114 &2711366806741905756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8054469964088213526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6d29fd447449b3a3dff2a98e8701fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Animation.PanelPopOutAni
+  duration: 0.25
+  currentDir: 1

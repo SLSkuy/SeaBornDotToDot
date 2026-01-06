@@ -22,12 +22,19 @@ namespace UI.GameSceneUI
 
         private void ExitShop()
         {
-            UIFrame.HideUI("ShopWindow");
+            UIFrame.HideUI("ShopPanel");
+            UIFrame.ShowUI("ScorePanel");
+            UIFrame.HideUI("ShopTitlePanel");
         }
 
         private void ShowShop()
         {
-            UIFrame.ShowUI("ShopWindow");
+            Invoke(nameof(ShowShopDelay), 1.5f);
+            
+            UIFrame.HideUI("ScorePanel");
+            UIFrame.ShowUI("ShopTitlePanel");
         }
+        
+        private void ShowShopDelay() => UIFrame.ShowUI("ShopPanel");
     }
 }

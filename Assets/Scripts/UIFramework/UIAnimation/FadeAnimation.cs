@@ -1,8 +1,7 @@
 using System;
-using UIFramework.UIAnimation;
 using UnityEngine;
 
-namespace UIFramework
+namespace UIFramework.UIAnimation
 {
     /// <summary>
     /// 渐入动画

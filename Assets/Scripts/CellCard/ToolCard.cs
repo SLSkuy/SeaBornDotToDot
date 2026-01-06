@@ -3,7 +3,10 @@ using UnityEngine;
 
 namespace CellCard
 {
-    public class ToolCard : MonoBehaviour, IToolCard
+    /// <summary>
+    /// 道具卡基类，只提供默认信息
+    /// </summary>
+    public abstract class ToolCard : MonoBehaviour, IToolCard
     {
         public ToolCardType toolType;
         public ToolCardTiming timing;

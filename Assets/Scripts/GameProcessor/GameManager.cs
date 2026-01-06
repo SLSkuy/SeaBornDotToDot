@@ -108,17 +108,13 @@ namespace GameProcessor
                 // 禁用连连看
                 OnLockDot?.Invoke();
                 
-                --_currentRound;
-                OnStepUpdate?.Invoke(_currentStep);
-                
+                // 处理卡牌效果
                 CalculateSpecialCard();
             }
-            else
-            {
-                OnScoreUpdate?.Invoke(score);
-                OnRoundUpdate?.Invoke(_currentRound);
-                OnStepUpdate?.Invoke(_currentStep);
-            }
+            
+            // 更新分数
+            OnStepUpdate?.Invoke(_currentStep);
+            OnScoreUpdate?.Invoke(score);
         }
 
         #endregion
@@ -135,8 +131,11 @@ namespace GameProcessor
             // 处理先机特殊卡片效果
             OnPreSpecialCard?.Invoke();
 
-            // 更新回合数等信息
+            // 更新回合
             _currentStep = stepPerRound;
+            --_currentRound;
+            
+            // 更新回合数等信息
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
         }

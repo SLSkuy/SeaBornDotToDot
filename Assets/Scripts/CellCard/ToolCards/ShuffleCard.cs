@@ -16,9 +16,6 @@ namespace CellCard.ToolCards
         {
             Debug.Log("使用【洗牌卡】");
 
-            // 先执行效果（也可以放到动画结束后，看设计）
-            GameManager.Instance.gridManager.ShuffleRemainingCells();
-
             // 播放卡牌晃动动画
             PlayShakeAnimation();
         }
@@ -56,10 +53,13 @@ namespace CellCard.ToolCards
 
             seq.OnComplete(() =>
             {
-                // 还原状态（重要）
+                // 还原状态
                 t.localPosition = originPos;
                 t.localRotation = originRot;
-
+                
+                // 触发洗牌效果
+                GameManager.Instance.gridManager.ShuffleRemainingCells();
+                
                 // 通知技能结束
                 base.StartSkill();
             });
