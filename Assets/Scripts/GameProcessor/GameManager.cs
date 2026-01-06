@@ -86,7 +86,14 @@ namespace GameProcessor
 
         private void OnGridClear()
         {
-            // TODO: 处理网格清空事件
+            Debug.Log("网格清空，直接进入下一回合");
+            
+            // 重置回合计数
+            _currentStep = stepPerRound;
+            --_currentRound;
+            
+            OnShopTime?.Invoke();
+            OnLockDot?.Invoke();
         }
         
         private void OnCellMatch(int s)
@@ -98,15 +105,20 @@ namespace GameProcessor
             // 回合结束处理
             if (_currentStep <= 0)
             {
+                // 禁用连连看
+                OnLockDot?.Invoke();
+                
                 --_currentRound;
-                _currentStep = stepPerRound;
+                OnStepUpdate?.Invoke(_currentStep);
                 
                 CalculateSpecialCard();
             }
-            
-            OnScoreUpdate?.Invoke(score);
-            OnRoundUpdate?.Invoke(_currentRound);
-            OnStepUpdate?.Invoke(_currentStep);
+            else
+            {
+                OnScoreUpdate?.Invoke(score);
+                OnRoundUpdate?.Invoke(_currentRound);
+                OnStepUpdate?.Invoke(_currentStep);
+            }
         }
 
         #endregion
@@ -115,8 +127,6 @@ namespace GameProcessor
 
         private void OnShopping()
         {
-            // 禁用连连看
-            OnLockDot?.Invoke();
             OnShopTime?.Invoke();
         }
 
@@ -124,6 +134,11 @@ namespace GameProcessor
         {
             // 处理先机特殊卡片效果
             OnPreSpecialCard?.Invoke();
+
+            // 更新回合数等信息
+            _currentStep = stepPerRound;
+            OnRoundUpdate?.Invoke(_currentRound);
+            OnStepUpdate?.Invoke(_currentStep);
         }
 
         #endregion

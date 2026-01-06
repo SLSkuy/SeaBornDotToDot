@@ -1,4 +1,4 @@
-namespace Cell
+namespace CellCard
 {
     public enum CardType
     {

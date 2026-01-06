@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Cell;
+using CellCard;
 using UnityEngine;
 
 namespace GameProcessor

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cell
+namespace CellCard
 {
     [RequireComponent(typeof(BoxCollider2D))]
     public class Card : MonoBehaviour

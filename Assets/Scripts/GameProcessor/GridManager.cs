@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Cell;
+using CellCard;
 using Random = UnityEngine.Random;
 
 namespace GameProcessor
