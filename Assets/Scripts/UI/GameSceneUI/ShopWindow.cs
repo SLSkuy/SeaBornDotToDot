@@ -1,4 +1,3 @@
-using System;
 using EventProcess;
 using UIFramework.Window;
 using UnityEngine;

@@ -29,7 +29,7 @@ namespace GameProcessor
         private int _curMatchCount;
         private int _maxMatchCount;
 
-        private bool _isLockByShopping;
+        private bool _isLockByLogicProcess;
         
         // 组件引用
         private MatchManager _matchManager;
@@ -57,34 +57,34 @@ namespace GameProcessor
             // 初始化网格数据
             grid.cellSize = cellSize;
             grid.cellGap = cellGap;
-            _isLockByShopping = false;
+            _isLockByLogicProcess = false;
             
             // 初始化逻辑数据，以让边缘元素能够相连
             _logicGridSize = new Vector2Int(gridSize.x + 2, gridSize.y + 2);
-
             _maxMatchCount = gridSize.x * gridSize.y / 2;
+            
             _matchManager.OnCellMatch += OnCellMatch;
 
-            GameManager.Instance.OnShopTime += OnShop;
-            GameManager.Instance.OnShopFinished += OnShopFinish;
+            GameManager.Instance.OnLockDot += OnLock;
+            GameManager.Instance.OnUnlockDot += OnUnlock;
             
             GenerateGrid();
         }
 
-        private void OnShop() => _isLockByShopping = true;
-        private void OnShopFinish() => _isLockByShopping = false;
+        private void OnLock() => _isLockByLogicProcess = true;  // 购物时禁用连连看功能
+        private void OnUnlock() => _isLockByLogicProcess = false;  // 处理先机卡牌后开启连连看功能
         
         private void OnDestroy()
         {
             _matchManager.OnCellMatch -= OnCellMatch;
             
-            GameManager.Instance.OnShopTime -= OnShop;
-            GameManager.Instance.OnShopFinished -= OnShopFinish;
+            GameManager.Instance.OnLockDot -= OnLock;
+            GameManager.Instance.OnUnlockDot -= OnUnlock;
         }
 
         private void Update()
         {
-            if (!_isLockByShopping && Input.GetMouseButtonDown(0))
+            if (!_isLockByLogicProcess && Input.GetMouseButtonDown(0))
             {
                 DetectCellClick();
             }

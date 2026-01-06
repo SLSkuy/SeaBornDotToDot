@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 
 namespace Cell
@@ -15,7 +14,6 @@ namespace Cell
         [Header("图片渲染")]
         [SerializeField]private SpriteRenderer img;
         [SerializeField]private SpriteRenderer background;
-        // public TextMeshProUGUI text;
         
         #region 成员方法
 
@@ -34,8 +32,7 @@ namespace Cell
         {
             type = cardType;
             img.sprite = sprite;
-
-            // text.text = ((int)cardType + 1).ToString();
+            
             img.enabled = enabled;
             background.enabled = true;
         }
@@ -46,7 +43,6 @@ namespace Cell
             
             img.enabled = false;
             background.enabled = false;
-            // text.enabled = false;
         }
 
         #endregion
