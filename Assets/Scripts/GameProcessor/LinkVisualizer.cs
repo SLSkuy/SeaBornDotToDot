@@ -28,7 +28,7 @@ namespace GameProcessor
         /// 绘制匹配连线，按照路径绘制折线
         /// </summary>
         /// <param name="path">单元格路径，从起点到终点</param>
-        public void DrawPath(List<DotToDotCell> path)
+        public void DrawPath(List<Card> path)
         {
             if (path == null || path.Count < 2) return;
             

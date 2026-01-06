@@ -13,23 +13,23 @@ namespace GameProcessor
         public Vector2Int gridSize;
         public Vector2 cellSize;
         public Vector2 cellGap;
+        private Vector2Int _logicGridSize;
 
         [Header("元素设置")]
-        public DotToDotCell cellPrefab;
+        public Card cellPrefab;
         public Sprite[] sprites;
         
         [Header("输入设置")]
         public Camera cam;
         public LayerMask cellLayer;
 
-        public DotToDotCell[,] Cells => _cells;
-        private DotToDotCell[,] _cells;
+        public Card[,] Cells => _cells;
+        private Card[,] _cells;
 
         private int _curMatchCount;
         private int _maxMatchCount;
 
         private bool _isLockByCalculate;
-        private bool _isLockByRound;
         
         // 组件引用
         private MatchManager _matchManager;
@@ -58,19 +58,19 @@ namespace GameProcessor
             grid.cellSize = cellSize;
             grid.cellGap = cellGap;
             _isLockByCalculate = false;
-            _isLockByRound = false;
+            
+            // 初始化逻辑数据，以让边缘元素能够相连
+            _logicGridSize = new Vector2Int(gridSize.x + 2, gridSize.y + 2);
 
             _maxMatchCount = gridSize.x * gridSize.y / 2;
             _matchManager.OnCellMatch += OnCellMatch;
 
             GameManager.Instance.OnCalculate += OnCalculate;
-            GameManager.Instance.OnRoundEmpty += OnRoundEmpty;
             
             GenerateGrid();
         }
         
         private void OnCalculate(bool isCalculated) => _isLockByCalculate = isCalculated;
-        private void OnRoundEmpty() => _isLockByRound = true;
         
         private void OnDestroy()
         {
@@ -79,17 +79,17 @@ namespace GameProcessor
 
         private void Update()
         {
-            if (!_isLockByRound && !_isLockByCalculate && Input.GetMouseButtonDown(0))
+            if (!_isLockByCalculate && Input.GetMouseButtonDown(0))
             {
                 DetectCellClick();
             }
         }
 
-        private void OnCellMatch(CellType cellType)
+        private void OnCellMatch(CardType cardType)
         {
             ++_curMatchCount;
             
-            OnMatch?.Invoke((int)cellType + 1);
+            OnMatch?.Invoke((int)cardType + 1);
             
             if (_curMatchCount == _maxMatchCount)
             {
@@ -115,7 +115,7 @@ namespace GameProcessor
 
             if (!hit) return;
 
-            DotToDotCell cell = hit.collider.GetComponent<DotToDotCell>();
+            Card cell = hit.collider.GetComponent<Card>();
             if (!cell || cell.IsEmpty) return;
 
             _matchManager.OnCellClicked(cell);
@@ -128,10 +128,10 @@ namespace GameProcessor
         {
             Vector3 gap = grid.cellGap;
 
-            float boardWidth = gridSize.x * cellSize.x;
-            float boardHeight = gridSize.y * cellSize.y;
-            float gapWidth = gridSize.x * gap.x;
-            float gapHeight = gridSize.y * gap.y;
+            float boardWidth = _logicGridSize.x * cellSize.x;
+            float boardHeight = _logicGridSize.y * cellSize.y;
+            float gapWidth = _logicGridSize.x * gap.x;
+            float gapHeight = _logicGridSize.y * gap.y;
 
             Vector3 offset = new Vector3(
                 (boardWidth + gapWidth) / 2f,
@@ -148,23 +148,29 @@ namespace GameProcessor
         private void GenerateGrid()
         {
             CenterGrid();
-            _cells = new DotToDotCell[gridSize.x, gridSize.y];
+            _cells = new Card[_logicGridSize.x, _logicGridSize.y];
 
-            for (int x = 0; x < gridSize.x; x++)
+            for (int x = 0; x < _logicGridSize.x; x++)
             {
-                for (int y = 0; y < gridSize.y; y++)
+                for (int y = 0; y < _logicGridSize.y; y++)
                 {
                     Vector3 worldPos = grid.GetCellCenterWorld(new Vector3Int(x, y, 0));
-                    DotToDotCell cell = Instantiate(cellPrefab, worldPos, Quaternion.identity, grid.transform);
-                    cell.transform.localScale = new Vector3(grid.cellSize.x, grid.cellSize.y, 1f);   // 适配网格大小
+                    Card cell = Instantiate(cellPrefab, worldPos, Quaternion.identity, grid.transform);
+                    cell.transform.localScale = new Vector3(grid.cellSize.x, grid.cellSize.y, 1f);
+
                     cell.x = x;
                     cell.y = y;
+
+                    // 初始化设置元素为空
+                    cell.Clear();
+
                     _cells[x, y] = cell;
                 }
             }
 
-            FillCells();
+            FillCells(); // 只填中间
         }
+
 
         /// <summary>
         /// 填充元素进网格
@@ -173,12 +179,11 @@ namespace GameProcessor
         {
             int total = gridSize.x * gridSize.y;
             int pairCount = total / 2;
-            List<CellType> types = new List<CellType>();
+            List<CardType> types = new List<CardType>();
 
             for (int i = 0; i < pairCount; i++)
             {
-                // CellType type = (CellType)Random.Range(0, sprites.Length);
-                CellType type = (CellType)Random.Range(0, 9);
+                CardType type = (CardType)Random.Range(0, sprites.Length);
                 types.Add(type);
                 types.Add(type);
             }
@@ -191,23 +196,26 @@ namespace GameProcessor
             }
 
             int index = 0;
-            for (int x = 0; x < gridSize.x; x++)
+
+            // 跳过边界
+            for (int x = 1; x <= gridSize.x; x++)
             {
-                for (int y = 0; y < gridSize.y; y++)
+                for (int y = 1; y <= gridSize.y; y++)
                 {
-                    CellType type = types[index++];
-                    _cells[x, y].Set(type, sprites[0]);
+                    CardType type = types[index++];
+                    _cells[x, y].Set(type, sprites[(int)type]);
                 }
             }
         }
+
         
         /// <summary>
         /// 刷新替换当前未被消除元素位置
         /// </summary>
         public void ShuffleRemainingCells()
         {
-            List<DotToDotCell> remainingCells = new List<DotToDotCell>();
-            List<CellType> remainingTypes = new List<CellType>();
+            List<Card> remainingCells = new List<Card>();
+            List<CardType> remainingTypes = new List<CardType>();
 
             foreach (var cell in _cells)
                 if (!cell.IsEmpty)
@@ -227,8 +235,8 @@ namespace GameProcessor
 
             for (int i = 0; i < remainingCells.Count; i++)
             {
-                // remainingCells[i].Set(remainingTypes[i], sprites[(int)remainingTypes[i]]);
-                remainingCells[i].Set(remainingTypes[i], sprites[0]);
+                remainingCells[i].Set(remainingTypes[i], sprites[(int)remainingTypes[i]]);
+                // remainingCells[i].Set(remainingTypes[i], sprites[0]);
             }
         }
     }

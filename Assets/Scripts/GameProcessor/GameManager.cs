@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Cell;
-using TMPro;
 using UnityEngine;
 
 namespace GameProcessor
@@ -12,15 +11,13 @@ namespace GameProcessor
         
         [Header("当前积分")] 
         public int score;
-        public TextMeshProUGUI scoreText;
 
         [Header("回合数据")] 
         public int roundCount = 3;
         public int stepPerRound = 5;
-        public TextMeshProUGUI stepText;
 
-        [Header("小丑牌")] 
-        public List<DotToDotCell> jokers;
+        [Header("特殊卡牌")] 
+        public List<Card> specialCards;
         
         [Header("网格设置")]
         public GridManager gridManager;
@@ -31,7 +28,8 @@ namespace GameProcessor
         #region 事件
 
         public event Action<bool> OnCalculate;
-        public event Action OnRoundEmpty;
+        public event Action<int> OnRoundUpdate;
+        public event Action<int> OnStepUpdate;
 
         #endregion
         
@@ -50,13 +48,14 @@ namespace GameProcessor
         private void Start()
         {
             score = 0;
-            scoreText.text = "Score: " + 0;
             
             _currentRound = roundCount;
             _currentStep = stepPerRound;
-            stepText.text = "Step: " + _currentStep;
             
             gridManager.OnMatch += OnCellMatch;
+            
+            OnRoundUpdate?.Invoke(_currentRound);
+            OnStepUpdate?.Invoke(_currentStep);
         }
 
         private void OnDestroy()
@@ -78,15 +77,14 @@ namespace GameProcessor
                 --_currentRound;
                 _currentStep = stepPerRound;
                 
-                CalculateJoker();
+                CalculateSpecialCard();
             }
             
-            // 更新显示逻辑
-            scoreText.text = "Score: " + score;
-            stepText.text = "Step: " + _currentStep;
+            OnRoundUpdate?.Invoke(_currentRound);
+            OnStepUpdate?.Invoke(_currentStep);
         }
 
-        private void CalculateJoker()
+        private void CalculateSpecialCard()
         {
             // TODO：处理小丑牌特殊逻辑
             OnCalculate?.Invoke(false);
@@ -94,7 +92,6 @@ namespace GameProcessor
             if (_currentRound <= 0)
             {
                 Debug.Log("回合耗尽，游戏结束");
-                OnRoundEmpty?.Invoke();
             }
         }
     }

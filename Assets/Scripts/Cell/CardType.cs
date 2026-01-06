@@ -1,6 +1,6 @@
 namespace Cell
 {
-    public enum CellType
+    public enum CardType
     {
         Joker = -2,
         None = -1,
@@ -13,5 +13,17 @@ namespace Cell
         G,
         H,
         I,
+        J,
+        K,
+        L,
+        M,
+        N,
+        O,
+        P,
+        Q,
+        R,
+        S,
+        T,
+        U,
     }
 }

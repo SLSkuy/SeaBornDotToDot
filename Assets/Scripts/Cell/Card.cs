@@ -4,18 +4,18 @@ using UnityEngine;
 namespace Cell
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class DotToDotCell : MonoBehaviour
+    public class Card : MonoBehaviour
     {
         public int x;
         public int y;
-        public CellType type;      // 图案类型
-        public bool IsEmpty => type == CellType.None;  // 是否已消除
+        public CardType type;      // 图案类型
+        public bool IsEmpty => type == CardType.None;  // 是否已消除
         public bool isSelected;
 
         [Header("图片渲染")]
         [SerializeField]private SpriteRenderer img;
         [SerializeField]private SpriteRenderer background;
-        public TextMeshProUGUI text;
+        // public TextMeshProUGUI text;
         
         #region 成员方法
 
@@ -25,28 +25,28 @@ namespace Cell
             HighLight();
         }
 
-        public void HighLight()
+        private void HighLight()
         {
             background.color = isSelected ? Color.yellow : Color.white;
         }
 
-        public void Set(CellType cellType, Sprite sprite)
+        public void Set(CardType cardType, Sprite sprite)
         {
-            type = cellType;
+            type = cardType;
             img.sprite = sprite;
 
-            text.text = ((int)cellType + 1).ToString();
-            img.enabled = false;
+            // text.text = ((int)cardType + 1).ToString();
+            img.enabled = enabled;
             background.enabled = true;
         }
 
         public void Clear()
         {
-            type = CellType.None;
+            type = CardType.None;
             
             img.enabled = false;
             background.enabled = false;
-            text.enabled = false;
+            // text.enabled = false;
         }
 
         #endregion

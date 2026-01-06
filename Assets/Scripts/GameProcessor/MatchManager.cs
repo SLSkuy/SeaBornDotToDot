@@ -13,13 +13,13 @@ namespace GameProcessor
         private readonly GridManager _gridManager;
         private readonly LinkVisualizer _linkVisualizer;
         
-        private DotToDotCell _firstSelected;
-        private DotToDotCell _secondSelected;
+        private Card _firstSelected;
+        private Card _secondSelected;
 
         #region 事件
         
         public event Action OnNoneAvailableMatches;
-        public event Action<CellType> OnCellMatch;
+        public event Action<CardType> OnCellMatch;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace GameProcessor
             _linkVisualizer = linkVisualizer;
         }
         
-        public void OnCellClicked(DotToDotCell cell)
+        public void OnCellClicked(Card cell)
         {
             if (!_firstSelected)
             {
@@ -68,7 +68,7 @@ namespace GameProcessor
         {
             if (_firstSelected.type != _secondSelected.type) return;
 
-            List<DotToDotCell> path = FindLinkPath(_firstSelected, _secondSelected);
+            List<Card> path = FindLinkPath(_firstSelected, _secondSelected);
             if (path == null) return;
 
             // 绘制折线
@@ -81,7 +81,7 @@ namespace GameProcessor
 
         #region 连线检测
 
-        private List<DotToDotCell> FindLinkPath(DotToDotCell a, DotToDotCell b)
+        private List<Card> FindLinkPath(Card a, Card b)
         {
             if (CheckStraight(a, b, out var straightPath)) return straightPath;
             if (CheckOneTurn(a, b, out var oneTurnPath)) return oneTurnPath;
@@ -89,9 +89,9 @@ namespace GameProcessor
             return null;
         }
 
-        private bool CheckStraight(DotToDotCell a, DotToDotCell b, out List<DotToDotCell> path)
+        private bool CheckStraight(Card a, Card b, out List<Card> path)
         {
-            path = new List<DotToDotCell>();
+            path = new List<Card>();
             var cells = _gridManager.Cells;
 
             if (a.x == b.x)
@@ -121,9 +121,9 @@ namespace GameProcessor
             return false;
         }
 
-        private bool CheckOneTurn(DotToDotCell a, DotToDotCell b, out List<DotToDotCell> path)
+        private bool CheckOneTurn(Card a, Card b, out List<Card> path)
         {
-            path = new List<DotToDotCell>();
+            path = new List<Card>();
             var cells = _gridManager.Cells;
 
             // 拐点1
@@ -151,9 +151,9 @@ namespace GameProcessor
             return false;
         }
 
-        private bool CheckTwoTurn(DotToDotCell a, DotToDotCell b, out List<DotToDotCell> path)
+        private bool CheckTwoTurn(Card a, Card b, out List<Card> path)
         {
-            path = new List<DotToDotCell>();
+            path = new List<Card>();
             var cells = _gridManager.Cells;
 
             // 向四个方向延伸
@@ -220,7 +220,7 @@ namespace GameProcessor
             {
                 for (int y = 0; y < height; y++)
                 {
-                    DotToDotCell a = cells[x, y];
+                    Card a = cells[x, y];
                     if (a.IsEmpty) continue;
 
                     for (int i = x; i < width; i++)
@@ -228,7 +228,7 @@ namespace GameProcessor
                         for (int j = y; j < height; j++)
                         {
                             if (i == x && j == y) continue;
-                            DotToDotCell b = cells[i, j];
+                            Card b = cells[i, j];
                             if (b.IsEmpty || a.type != b.type) continue;
                             if (FindLinkPath(a, b) != null) return true;
                         }
