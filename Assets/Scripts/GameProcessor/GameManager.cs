@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Cell;
+using EventProcess;
+using UI.GameSceneUI;
 using UnityEngine;
 
 namespace GameProcessor
@@ -26,8 +28,9 @@ namespace GameProcessor
         private int _currentStep;
 
         #region 事件
-        
-        public event Action<bool> OnCalculate;
+
+        public event Action OnShopTime;
+        public event Action OnShopFinished;
         public event Action<int> OnRoundUpdate;
         public event Action<int> OnStepUpdate;
         public event Action<int> OnScoreUpdate;
@@ -59,12 +62,16 @@ namespace GameProcessor
             OnScoreUpdate?.Invoke(score);
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
+            
+            Signals.Get<ExitShop>().AddListener(OnShoppingFinished);
         }
 
         private void OnDestroy()
         {
             gridManager.OnMatch -= OnCellMatch;
             gridManager.OnGridClear -= OnGridClear;
+            
+            Signals.Get<ExitShop>().RemoveListener(OnShoppingFinished);
         }
 
         private void OnGridClear()
@@ -81,8 +88,6 @@ namespace GameProcessor
             // 回合结束处理
             if (_currentStep <= 0)
             {
-                OnCalculate?.Invoke(true);
-                
                 --_currentRound;
                 _currentStep = stepPerRound;
                 
@@ -96,13 +101,19 @@ namespace GameProcessor
 
         private void CalculateSpecialCard()
         {
-            // TODO：处理小丑牌特殊逻辑
-            OnCalculate?.Invoke(false);
+            // TODO：处理卡牌特殊逻辑
 
             if (_currentRound <= 0)
             {
                 Debug.Log("回合耗尽，游戏结束");
             }
+            
+            OnShopTime?.Invoke();
+        }
+
+        private void OnShoppingFinished()
+        {
+            OnShopFinished?.Invoke();
         }
     }
 }

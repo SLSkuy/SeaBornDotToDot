@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb8919d682a42db9c954065b9da78b9, type: 3}
   m_Name: GameSceneUI
   m_EditorClassIdentifier: Assembly-CSharp::UIFramework.UIFrameworkSettings
-  uiToRegister: []
+  uiToRegister:
+  - isEnableOnRegister: 0
+    uiPrefab: {fileID: 8054469964088213526, guid: 38d2e990d9aada549a02dcf7d9d836e6, type: 3}

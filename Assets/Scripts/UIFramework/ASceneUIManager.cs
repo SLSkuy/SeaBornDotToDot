@@ -26,7 +26,10 @@ namespace UIFramework
             UIFrame = GetComponent<UIFramework>();
             UIFrame.UISettings = uiSettings;
             UIFrame.Initialize();
-            
+        }
+
+        private void Start()
+        {
             AddSignal();
         }
 

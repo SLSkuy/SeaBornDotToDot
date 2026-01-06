@@ -29,7 +29,7 @@ namespace GameProcessor
         private int _curMatchCount;
         private int _maxMatchCount;
 
-        private bool _isLockByCalculate;
+        private bool _isLockByShopping;
         
         // 组件引用
         private MatchManager _matchManager;
@@ -57,7 +57,7 @@ namespace GameProcessor
             // 初始化网格数据
             grid.cellSize = cellSize;
             grid.cellGap = cellGap;
-            _isLockByCalculate = false;
+            _isLockByShopping = false;
             
             // 初始化逻辑数据，以让边缘元素能够相连
             _logicGridSize = new Vector2Int(gridSize.x + 2, gridSize.y + 2);
@@ -65,21 +65,26 @@ namespace GameProcessor
             _maxMatchCount = gridSize.x * gridSize.y / 2;
             _matchManager.OnCellMatch += OnCellMatch;
 
-            GameManager.Instance.OnCalculate += OnCalculate;
+            GameManager.Instance.OnShopTime += OnShop;
+            GameManager.Instance.OnShopFinished += OnShopFinish;
             
             GenerateGrid();
         }
-        
-        private void OnCalculate(bool isCalculated) => _isLockByCalculate = isCalculated;
+
+        private void OnShop() => _isLockByShopping = true;
+        private void OnShopFinish() => _isLockByShopping = false;
         
         private void OnDestroy()
         {
             _matchManager.OnCellMatch -= OnCellMatch;
+            
+            GameManager.Instance.OnShopTime -= OnShop;
+            GameManager.Instance.OnShopFinished -= OnShopFinish;
         }
 
         private void Update()
         {
-            if (!_isLockByCalculate && Input.GetMouseButtonDown(0))
+            if (!_isLockByShopping && Input.GetMouseButtonDown(0))
             {
                 DetectCellClick();
             }
