@@ -46,8 +46,6 @@ namespace GameProcessor
 
         private IEnumerator ProcessCards(ToolCardTiming timing, Action finishedCallback)
         {
-            Debug.Log("processing cards");
-            
             _processingQueue = new Queue<ToolCard>();
 
             foreach (var card in specialCards)
@@ -84,6 +82,12 @@ namespace GameProcessor
             yield return new WaitForSeconds(windDownTime);
             
             finishedCallback?.Invoke();
+        }
+        
+        public void AddCard(ToolCard card)
+        {
+            card.transform.SetParent(container, false);
+            specialCards.Add(card);
         }
     }
 }

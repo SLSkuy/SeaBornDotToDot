@@ -57,5 +57,19 @@ namespace GameProcessor
 
             return _currentItems;
         }
+
+        public bool TryBuyItem(ShopItemData data, out ToolCard card)
+        {
+            card = null;
+
+            if (money < data.price)
+                return false;
+
+            money -= data.price;
+            UpdateMoneyText();
+
+            card = Instantiate(data.cardPrefab);
+            return true;
+        }
     }
 }

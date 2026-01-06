@@ -325,8 +325,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c44c1edfdcebe47a96f6b9fc840b78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
+  id: 0
   icon: {fileID: 7790009452056116557}
-  buy: {fileID: 0}
+  buy: {fileID: 4165426982040514432}
 --- !u!114 &7790009452056116557 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6752818571982513656, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
