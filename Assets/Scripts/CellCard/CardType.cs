@@ -2,7 +2,7 @@ namespace CellCard
 {
     public enum CardType
     {
-        Joker = -2,
+        ShadowMark = -2,
         None = -1,
         A,
         B,

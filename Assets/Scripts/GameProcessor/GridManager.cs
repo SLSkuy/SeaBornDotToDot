@@ -287,6 +287,14 @@ namespace GameProcessor
             
             // 奇数修正
             FixOddCardTypes();
+            
+            if (_curMatchCount == _maxMatchCount)
+            {
+                Debug.Log("消除完毕");
+                
+                _curMatchCount = 0;
+                OnGridClear?.Invoke();
+            }
         }
         
         /// <summary>

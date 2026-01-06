@@ -47,11 +47,10 @@ namespace UI.GameSceneUI
                 GameObject item = Instantiate(itemPrefab, container);
 
                 ShopItem shopItem = item.GetComponent<ShopItem>();
-                shopItem.id = i;
-
-                int index = i;
-                shopItem.buy.onClick.AddListener(() => TryBuyItem(index));
-
+                
+                // 初始化商品信息
+                shopItem.Init(i, _currentShopItems[i].price, this, _currentShopItems[i].cardPrefab.icon);
+                
                 _items.Add(item);
             }
         }
@@ -64,7 +63,7 @@ namespace UI.GameSceneUI
             _items.Clear();
         }
         
-        private void TryBuyItem(int id)
+        public void TryBuyItem(int id)
         {
             if (id < 0 || id >= _currentShopItems.Count)
                 return;

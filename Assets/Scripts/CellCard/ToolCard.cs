@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CellCard
 {
@@ -10,12 +11,23 @@ namespace CellCard
     {
         public ToolCardType toolType;
         public ToolCardTiming timing;
+        public Sprite icon;
+
+        private Image _image;
 
         public event Action OnSkillFinished;
 
         public virtual void StartSkill()
         {
             OnSkillFinished?.Invoke();
+        }
+
+        private void Start()
+        {
+            if (icon != null)
+            {
+                _image.sprite = icon;
+            }
         }
     }
 }

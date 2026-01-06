@@ -123,4 +123,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.AddStepCard
   toolType: 1
   timing: 0
-  addStepCount: 3
+  addStepCount: 2
