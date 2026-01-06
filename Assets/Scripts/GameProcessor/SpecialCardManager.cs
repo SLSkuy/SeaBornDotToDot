@@ -8,7 +8,8 @@ namespace GameProcessor
 {
     public class SpecialCardManager : MonoBehaviour
     {
-        [Header("特殊卡牌")]
+        [Header("特殊卡牌")] 
+        public Transform container;
         public List<ToolCard> specialCards;
 
         [Header("处理过程属性")] 

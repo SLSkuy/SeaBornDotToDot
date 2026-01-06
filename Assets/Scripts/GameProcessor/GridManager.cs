@@ -36,7 +36,8 @@ namespace GameProcessor
 
         #region 事件
 
-        public event Action<int> OnMatch;
+        public event Action<int, int> OnMatch;  // score, pairs
+        public event Action<int, int> OnBomb;   // score, pairs
         public event Action OnGridClear;
 
         #endregion
@@ -61,7 +62,7 @@ namespace GameProcessor
             
             // 初始化逻辑数据，以让边缘元素能够相连
             _logicGridSize = new Vector2Int(gridSize.x + 2, gridSize.y + 2);
-            _maxMatchCount = gridSize.x * gridSize.y / 2;
+            _maxMatchCount = gridSize.x * gridSize.y;
             
             _matchManager.OnCellMatch += OnCellMatch;
 
@@ -89,16 +90,23 @@ namespace GameProcessor
                 DetectCellClick();
             }
         }
+        
+        private bool IsInsideGrid(int x, int y)
+        {
+            return x > 0 && x <= gridSize.x && y > 0 && y <= gridSize.y;
+        }
 
         private void OnCellMatch(CardType cardType)
         {
-            ++_curMatchCount;
+            _curMatchCount += 2;
             
-            OnMatch?.Invoke((int)cardType + 1);
+            OnMatch?.Invoke((int)cardType + 1, 1);
             
             if (_curMatchCount == _maxMatchCount)
             {
-                Debug.Log("消除完毕，游戏结束");
+                Debug.Log("消除完毕");
+                
+                _curMatchCount = 0;
                 OnGridClear?.Invoke();
             }
         }
@@ -175,12 +183,11 @@ namespace GameProcessor
 
             FillCells(); // 只填中间
         }
-
-
+        
         /// <summary>
         /// 填充元素进网格
         /// </summary>
-        private void FillCells()
+        public void FillCells()
         {
             int total = gridSize.x * gridSize.y;
             int pairCount = total / 2;
@@ -213,6 +220,7 @@ namespace GameProcessor
             }
         }
 
+        #region 特殊效果
         
         /// <summary>
         /// 刷新替换当前未被消除元素位置
@@ -241,8 +249,80 @@ namespace GameProcessor
             for (int i = 0; i < remainingCells.Count; i++)
             {
                 remainingCells[i].Set(remainingTypes[i], sprites[(int)remainingTypes[i]]);
-                // remainingCells[i].Set(remainingTypes[i], sprites[0]);
             }
         }
+
+        /// <summary>
+        /// 在指定位置进行爆炸消除
+        /// </summary>
+        public void BombAt(int centerX, int centerY, int radius)
+        {
+            HashSet<Card> removed = new HashSet<Card>();
+            int score = 0;
+            int pairs = 0;
+
+            // 1. 范围爆炸
+            for (int x = centerX - radius; x <= centerX + radius; x++)
+            {
+                for (int y = centerY - radius; y <= centerY + radius; y++)
+                {
+                    if (!IsInsideGrid(x, y)) continue;
+
+                    Card cell = _cells[x, y];
+                    if (cell == null || cell.IsEmpty) continue;
+
+                    score += (int)cell.type;
+                    ++pairs;
+                    
+                    // 计数销毁的元素个数，单个计算非配对
+                    _curMatchCount++;
+                    
+                    removed.Add(cell);
+                    cell.Clear();
+                }
+            }
+            
+            // 配对数量为炸毁数量的 1/3
+            OnBomb?.Invoke(score / 3, pairs / 3);
+            
+            // 奇数修正
+            FixOddCardTypes();
+        }
+        
+        /// <summary>
+        /// 修正爆炸后出现的奇数元素问题
+        /// </summary>
+        private void FixOddCardTypes()
+        {
+            Dictionary<CardType, List<Card>> typeMap = new Dictionary<CardType, List<Card>>();
+
+            foreach (var cell in _cells)
+            {
+                if (cell == null || cell.IsEmpty) continue;
+
+                if (!typeMap.TryGetValue(cell.type, out var list))
+                {
+                    list = new List<Card>();
+                    typeMap[cell.type] = list;
+                }
+
+                list.Add(cell);
+            }
+
+            foreach (var pair in typeMap)
+            {
+                // 若某一类为奇数，随机销毁一个
+                if (pair.Value.Count % 2 != 0)
+                {
+                    int rand = Random.Range(0, pair.Value.Count);
+                    pair.Value[rand].Clear();
+                    
+                    // 计数销毁的元素个数，单个计算非配对
+                    _curMatchCount++;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using EventProcess;
 using UI.GameSceneUI;
 using UnityEngine;
@@ -69,6 +70,7 @@ namespace GameProcessor
             
             // 网格事件回调
             gridManager.OnMatch += OnCellMatch;
+            gridManager.OnBomb += OnCellBomb;
             gridManager.OnGridClear += OnGridClear;
 
             // 特殊卡牌处理回调
@@ -89,6 +91,7 @@ namespace GameProcessor
             missionManager.OnMissionCompleted -= shopManager.GetMoney;
             
             gridManager.OnMatch -= OnCellMatch;
+            gridManager.OnBomb -= OnCellBomb;
             gridManager.OnGridClear -= OnGridClear;
             
             specialCardManager.OnPreCardProcessFinished -= PreCardProcessFinished;
@@ -109,6 +112,11 @@ namespace GameProcessor
         }
         
         public void AddRound(int i) => _currentRound += i;
+        public void AddStep(int i)
+        {
+            _currentStep += i;
+            OnStepUpdate?.Invoke(_currentStep);
+        }
 
         #endregion
         
@@ -119,9 +127,20 @@ namespace GameProcessor
             Debug.Log("网格清空，刷新网格");
             
             OnLockDot?.Invoke();
+
+            StartCoroutine(GenerateGridAnimation());
+        }
+
+        private IEnumerator GenerateGridAnimation()
+        {
+            yield return new WaitForSeconds(0.2f);
+            
+            gridManager.FillCells();
+            
+            OnUnlockDot?.Invoke();
         }
         
-        private void OnCellMatch(int s)
+        private void OnCellMatch(int s, int pairs)
         {
             // 基础分数计算
             score += s;
@@ -139,6 +158,13 @@ namespace GameProcessor
             
             // 更新分数
             OnStepUpdate?.Invoke(_currentStep);
+            OnScoreUpdate?.Invoke(score);
+        }
+
+        private void OnCellBomb(int s, int pairs)
+        {
+            score += s;
+            
             OnScoreUpdate?.Invoke(score);
         }
 

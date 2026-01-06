@@ -14,8 +14,6 @@ namespace CellCard.ToolCards
 
         public override void StartSkill()
         {
-            Debug.Log("使用【洗牌卡】");
-
             // 播放卡牌晃动动画
             PlayShakeAnimation();
         }

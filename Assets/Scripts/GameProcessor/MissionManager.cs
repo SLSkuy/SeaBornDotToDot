@@ -44,6 +44,7 @@ namespace GameProcessor
             _game = GameManager.Instance;
 
             _game.gridManager.OnMatch += OnMatch;
+            _game.gridManager.OnBomb += OnMatch; 
             _game.OnRoundUpdate += OnRoundStart;
 
             InitMission();
@@ -52,6 +53,7 @@ namespace GameProcessor
         private void OnDestroy()
         {
             _game.gridManager.OnMatch -= OnMatch;
+            _game.gridManager.OnBomb -= OnMatch;
             _game.OnRoundUpdate -= OnRoundStart;
         }
 
@@ -80,9 +82,9 @@ namespace GameProcessor
         /// <summary>
         /// 每次成功消除一对
         /// </summary>
-        private void OnMatch(int score)
+        private void OnMatch(int score, int pairs)
         {
-            _currentCompletedPairs++;
+            _currentCompletedPairs += pairs;
             OnMissionProgress?.Invoke(_currentCompletedPairs, _currentTargetPairs);
             
             UpdateMissionText();
