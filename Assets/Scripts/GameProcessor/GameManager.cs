@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Cell;
-using EventProcess;
-using UI.GameSceneUI;
 using UnityEngine;
 
 namespace GameProcessor
@@ -28,10 +26,11 @@ namespace GameProcessor
         private int _currentStep;
 
         #region 事件
-
+        
         public event Action<bool> OnCalculate;
         public event Action<int> OnRoundUpdate;
         public event Action<int> OnStepUpdate;
+        public event Action<int> OnScoreUpdate;
 
         #endregion
         
@@ -55,7 +54,9 @@ namespace GameProcessor
             _currentStep = stepPerRound;
             
             gridManager.OnMatch += OnCellMatch;
+            gridManager.OnGridClear += OnGridClear;
             
+            OnScoreUpdate?.Invoke(score);
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
         }
@@ -63,6 +64,12 @@ namespace GameProcessor
         private void OnDestroy()
         {
             gridManager.OnMatch -= OnCellMatch;
+            gridManager.OnGridClear -= OnGridClear;
+        }
+
+        private void OnGridClear()
+        {
+            // TODO: 处理网格清空事件
         }
 
         private void OnCellMatch(int s)
@@ -82,9 +89,7 @@ namespace GameProcessor
                 CalculateSpecialCard();
             }
             
-            // 更新UI显示
-            Signals.Get<ScorePanelScoreUpdate>().Dispatch(score);
-            
+            OnScoreUpdate?.Invoke(score);
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
         }

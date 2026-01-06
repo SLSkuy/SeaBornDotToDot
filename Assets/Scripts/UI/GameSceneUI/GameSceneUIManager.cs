@@ -1,4 +1,3 @@
-using EventProcess;
 using UIFramework;
 
 namespace UI.GameSceneUI
