@@ -45,7 +45,6 @@ namespace GameProcessor
 
             _game.gridManager.OnMatch += OnMatch;
             _game.OnRoundUpdate += OnRoundStart;
-            _game.OnPostSpecialCard += OnRoundEndCheck;
 
             InitMission();
         }
@@ -54,7 +53,6 @@ namespace GameProcessor
         {
             _game.gridManager.OnMatch -= OnMatch;
             _game.OnRoundUpdate -= OnRoundStart;
-            _game.OnPostSpecialCard -= OnRoundEndCheck;
         }
 
         private void UpdateMissionText()
@@ -103,7 +101,7 @@ namespace GameProcessor
         /// <summary>
         /// 回合结束后检查任务状态
         /// </summary>
-        private void OnRoundEndCheck()
+        public void OnRoundEndCheck()
         {
             if (_currentCompletedPairs >= _currentTargetPairs)
             {
@@ -129,7 +127,7 @@ namespace GameProcessor
             reward += rewardGold;
 
             // 消除多余海嗣转换为金币
-            int extraGold = (_currentCompletedPairs-_currentTargetPairs) * goldPerExtraStep;
+            int extraGold = (_currentCompletedPairs - _currentTargetPairs) * goldPerExtraStep;
             reward += extraGold;
 
             // 奖励回合

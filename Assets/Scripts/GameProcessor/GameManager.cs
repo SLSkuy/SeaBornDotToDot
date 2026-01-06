@@ -148,14 +148,6 @@ namespace GameProcessor
 
         private void OnShopping()
         {
-            // 更新回合
-            _currentStep = stepPerRound;
-            --_currentRound;
-            
-            // 更新回合数等信息
-            OnRoundUpdate?.Invoke(_currentRound);
-            OnStepUpdate?.Invoke(_currentStep);
-            
             if (_isGameOver) return;
             
             OnShopTime?.Invoke();
@@ -173,8 +165,6 @@ namespace GameProcessor
         
         private void CalculateSpecialCard()
         {
-            if(_isGameOver) return;
-            
             // 处理后手特殊卡片效果
             OnPostSpecialCard?.Invoke();
         }
@@ -186,6 +176,17 @@ namespace GameProcessor
 
         private void PostCardProcessFinished()
         {
+            // 回合检测
+            missionManager.OnRoundEndCheck();
+            
+            // 更新回合
+            _currentStep = stepPerRound;
+            --_currentRound;
+            
+            // 更新回合数等信息
+            OnRoundUpdate?.Invoke(_currentRound);
+            OnStepUpdate?.Invoke(_currentStep);
+
             if (_isGameOver) return;
             
             // 后手卡片处理完毕后开启商店

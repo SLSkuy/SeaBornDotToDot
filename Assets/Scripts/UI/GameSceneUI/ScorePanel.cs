@@ -34,11 +34,13 @@ namespace UI.GameSceneUI
         
         private void UpdateScore(int score)
         {
+            if (GameManager.Instance.CurrentRound < 0) return;
             scoreText.text = score.ToString();
         }
 
         private void RoundUpdate(int round)
         {
+            if (GameManager.Instance.CurrentRound < 0) return;
             roundText.text = round.ToString();
         }
 
