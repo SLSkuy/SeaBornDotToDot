@@ -46,6 +46,8 @@ namespace GameProcessor
 
         private IEnumerator ProcessCards(ToolCardTiming timing, Action finishedCallback)
         {
+            Debug.Log("processing cards");
+            
             _processingQueue = new Queue<ToolCard>();
 
             foreach (var card in specialCards)
@@ -54,6 +56,8 @@ namespace GameProcessor
 
             if (_processingQueue.Count == 0)
             {
+                yield return new WaitForEndOfFrame();   // 等待一帧，让逻辑更新
+                
                 finishedCallback?.Invoke();
                 yield break;
             }

@@ -122,5 +122,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.BombCard
   toolType: 0
-  timing: 0
+  timing: 1
   bombRadius: 2
