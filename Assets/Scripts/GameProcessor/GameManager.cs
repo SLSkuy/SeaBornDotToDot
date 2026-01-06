@@ -16,12 +16,17 @@ namespace GameProcessor
         public int roundCount = 3;
         public int stepPerRound = 5;
         
-        [Header("网格设置")]
+        [Header("组件引用")]
         public GridManager gridManager;
         public SpecialCardManager specialCardManager;
+        public MissionManager missionManager;
+        public ShopManager shopManager;
         
+        public int CurrentRound {get => _currentRound;}
         private int _currentRound;
         private int _currentStep;
+        
+        private bool _isGameOver;
 
         #region 事件
 
@@ -58,6 +63,10 @@ namespace GameProcessor
             _currentRound = roundCount;
             _currentStep = stepPerRound;
             
+            // 任务管理器回调
+            missionManager.OnGameOver += GameOver;
+            missionManager.OnMissionCompleted += shopManager.GetMoney;
+            
             // 网格事件回调
             gridManager.OnMatch += OnCellMatch;
             gridManager.OnGridClear += OnGridClear;
@@ -76,23 +85,39 @@ namespace GameProcessor
 
         private void OnDestroy()
         {
+            missionManager.OnGameOver -= GameOver;
+            missionManager.OnMissionCompleted -= shopManager.GetMoney;
+            
             gridManager.OnMatch -= OnCellMatch;
             gridManager.OnGridClear -= OnGridClear;
             
+            specialCardManager.OnPreCardProcessFinished -= PreCardProcessFinished;
+            specialCardManager.OnPostCardProcessFinished -= PostCardProcessFinished;
+            
             Signals.Get<ExitShop>().RemoveListener(OnShoppingFinished);
         }
+
+        #region 游戏事件
+
+        public void GameOver()
+        {
+            Debug.Log("游戏结束");
+            
+            _isGameOver = true;
+            
+            OnLockDot?.Invoke();
+        }
+        
+        public void AddRound(int i) => _currentRound += i;
+
+        #endregion
         
         #region 网格事件处理
 
         private void OnGridClear()
         {
-            Debug.Log("网格清空，直接进入下一回合");
+            Debug.Log("网格清空，刷新网格");
             
-            // 重置回合计数
-            _currentStep = stepPerRound;
-            --_currentRound;
-            
-            OnShopTime?.Invoke();
             OnLockDot?.Invoke();
         }
         
@@ -123,14 +148,6 @@ namespace GameProcessor
 
         private void OnShopping()
         {
-            OnShopTime?.Invoke();
-        }
-
-        private void OnShoppingFinished()
-        {
-            // 处理先机特殊卡片效果
-            OnPreSpecialCard?.Invoke();
-
             // 更新回合
             _currentStep = stepPerRound;
             --_currentRound;
@@ -138,6 +155,16 @@ namespace GameProcessor
             // 更新回合数等信息
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
+            
+            if (_isGameOver) return;
+            
+            OnShopTime?.Invoke();
+        }
+
+        private void OnShoppingFinished()
+        {
+            // 处理先机特殊卡片效果
+            OnPreSpecialCard?.Invoke();
         }
 
         #endregion
@@ -146,13 +173,10 @@ namespace GameProcessor
         
         private void CalculateSpecialCard()
         {
+            if(_isGameOver) return;
+            
             // 处理后手特殊卡片效果
             OnPostSpecialCard?.Invoke();
-
-            if (_currentRound <= 0)
-            {
-                Debug.Log("回合耗尽，游戏结束");
-            }
         }
 
         private void PreCardProcessFinished()
@@ -162,6 +186,8 @@ namespace GameProcessor
 
         private void PostCardProcessFinished()
         {
+            if (_isGameOver) return;
+            
             // 后手卡片处理完毕后开启商店
             OnShopping();
         }
