@@ -8,11 +8,13 @@ namespace UIFramework.UIAnimation
     /// </summary>
     public class FadeAni : AnimComponent
     {
+        [SerializeField] private float fadeWindUp = 1f;
         [SerializeField] private float fadeDuration = 0.5f;
         [SerializeField] private bool fadeOut = false;
 
         private CanvasGroup _canvasGroup;
         private float _timer;
+        private float _fadeWindUpTimer;
         private Action _currentAction;
         private Transform _currentTarget;
 
@@ -48,6 +50,7 @@ namespace UIFramework.UIAnimation
 
             _currentAction = callWhenFinished;
             _timer = fadeDuration;
+            _fadeWindUpTimer = fadeWindUp;
 
             _canvasGroup.alpha = _startValue;
             _shouldAnimate = true;
@@ -59,6 +62,12 @@ namespace UIFramework.UIAnimation
 
             if (_timer > 0f)
             {
+                if (_fadeWindUpTimer > 0f)
+                {
+                    _fadeWindUpTimer -= Time.deltaTime;
+                    return;
+                }
+                
                 _timer -= Time.deltaTime;
                 _canvasGroup.alpha = Mathf.Lerp(_startValue, _endValue, 1 - (_timer / fadeDuration));
             }
