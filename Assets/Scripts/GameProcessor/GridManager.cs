@@ -73,6 +73,7 @@ namespace GameProcessor
             _maxMatchCount = gridSize.x * gridSize.y;
             
             _matchManager.OnCellMatch += OnCellMatch;
+            _matchManager.OnNoneAvailableMatches += ShuffleRemainingCells;  // 若没有可连接元素，刷新一次
 
             GameManager.Instance.OnLockDot += OnLock;
             GameManager.Instance.OnUnlockDot += OnUnlock;
@@ -86,6 +87,7 @@ namespace GameProcessor
         private void OnDestroy()
         {
             _matchManager.OnCellMatch -= OnCellMatch;
+            _matchManager.OnNoneAvailableMatches -= ShuffleRemainingCells;
             
             GameManager.Instance.OnLockDot -= OnLock;
             GameManager.Instance.OnUnlockDot -= OnUnlock;
@@ -289,6 +291,22 @@ namespace GameProcessor
                 if (!result.Contains(pos) && !_sealedCells.Contains(pos))
                 {
                     result.Add(pos);
+                }
+            }
+        }
+        
+        public void ClearSealedRows(List<int> rows)
+        {
+            foreach (int row in rows)
+            {
+                for (int x = 1; x <= gridSize.x; x++)
+                {
+                    Card cell = _cells[x, row];
+                    if (cell && cell.isSealedFloor)
+                    {
+                        cell.ClearSealedFloor();
+                        _sealedCells.Remove(new Vector2Int(x, row));
+                    }
                 }
             }
         }

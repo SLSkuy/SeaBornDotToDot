@@ -2474,10 +2474,12 @@ MonoBehaviour:
   moneyText: {fileID: 1476944754}
   toolCards:
   - cardPrefab: {fileID: -2107727325223049237, guid: 81f35ab302db43e4390479127bc07f84, type: 3}
-    price: 10
+    price: 15
   - cardPrefab: {fileID: 97413783021136221, guid: 66b3745c568434e4982170a28078298d, type: 3}
     price: 30
   - cardPrefab: {fileID: 7125358382016333094, guid: 928d7662f2012ab47b177f17e5ef2654, type: 3}
+    price: 10
+  - cardPrefab: {fileID: 5222674432110313320, guid: d5490caf99dd123418794caf4745329c, type: 3}
     price: 5
   minRefreshCount: 3
   maxRefreshCount: 10

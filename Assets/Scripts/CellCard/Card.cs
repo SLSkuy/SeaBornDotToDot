@@ -62,6 +62,15 @@ namespace CellCard
             background.enabled = false;
         }
 
+        public void ClearSealedFloor()
+        {
+            type = CardType.None;
+            isSealedFloor = false;
+            
+            // 销毁溟痕块
+            StartCoroutine(DissolveOut(img.material));
+        }
+
         public void Clear()
         {
             if (type == CardType.ShenMingYinHenZhe)
@@ -93,6 +102,19 @@ namespace CellCard
             }
         }
 
+        IEnumerator DissolveOut(Material mat)
+        {
+            float t = 0f;
+            while (t < 1f)
+            {
+                t += Time.deltaTime;
+                mat.SetFloat(NoiseStrength, 1-t);
+                yield return null;
+            }
+            
+            img.enabled = false;
+            background.enabled = false;
+        }
 
         #endregion
     }
