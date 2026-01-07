@@ -19,6 +19,14 @@ namespace GameProcessor
         public Card cellPrefab;
         public Sprite[] sprites;
         
+        [Header("溟痕设置")]
+        public Sprite sealedFloor;
+        public Material sealedFloorMat;
+        
+        [Tooltip("每多少行动值扩张一次")]public int expendRate;
+        private int _lastExpend;
+        private readonly HashSet<Vector2Int> _sealedCells = new();
+        
         [Header("输入设置")]
         public Camera cam;
         public LayerMask cellLayer;
@@ -102,12 +110,27 @@ namespace GameProcessor
             
             OnMatch?.Invoke((int)cardType + 1, 1);
             
+            SealedAction();
+            
             if (_curMatchCount == _maxMatchCount)
             {
                 Debug.Log("消除完毕");
                 
                 _curMatchCount = 0;
                 OnGridClear?.Invoke();
+            }
+        }
+        
+        /// <summary>
+        /// 溟痕逻辑
+        /// </summary>
+        private void SealedAction()
+        {
+            _lastExpend++;
+
+            if (_lastExpend % expendRate == 0)
+            {
+                SetSealedCellExpend();
             }
         }
         
@@ -129,7 +152,7 @@ namespace GameProcessor
             if (!hit) return;
 
             Card cell = hit.collider.GetComponent<Card>();
-            if (!cell || cell.IsEmpty) return;
+            if (!cell || cell.IsEmpty || cell.isSealedFloor) return;
 
             _matchManager.OnCellClicked(cell);
         }
@@ -181,6 +204,8 @@ namespace GameProcessor
                 }
             }
 
+            // 清空溟痕
+            _sealedCells.Clear();
             FillCells(); // 只填中间
         }
         
@@ -221,6 +246,52 @@ namespace GameProcessor
         }
 
         #region 特殊效果
+
+        public void RecordSealedCell(int x, int y)
+        {
+            _sealedCells.Add(new Vector2Int(x, y));
+        }
+
+        private void SetSealedCellExpend()
+        {
+            List<Vector2Int> newSealed = new();
+
+            foreach (var pos in _sealedCells)
+            {
+                TrySeal(pos.x + 1, pos.y, newSealed);
+                TrySeal(pos.x - 1, pos.y, newSealed);
+                TrySeal(pos.x, pos.y + 1, newSealed);
+                TrySeal(pos.x, pos.y - 1, newSealed);
+            }
+
+            // 统一转化，避免同一轮连锁扩散
+            foreach (var p in newSealed)
+            {
+                Card cell = _cells[p.x, p.y];
+                if (!cell || cell.isSealedFloor) continue;
+                
+                cell.SetSealedFloor();
+
+                _sealedCells.Add(p);
+            }
+        }
+        
+        private void TrySeal(int x, int y, List<Vector2Int> result)
+        {
+            if (!IsInsideGrid(x, y)) return;
+
+            Card cell = _cells[x, y];
+            if (!cell) return;
+
+            if (cell.IsEmpty && !cell.isSealedFloor)
+            {
+                Vector2Int pos = new Vector2Int(x, y);
+                if (!result.Contains(pos) && !_sealedCells.Contains(pos))
+                {
+                    result.Add(pos);
+                }
+            }
+        }
         
         /// <summary>
         /// 刷新替换当前未被消除元素位置
@@ -231,7 +302,7 @@ namespace GameProcessor
             List<CardType> remainingTypes = new List<CardType>();
 
             foreach (var cell in _cells)
-                if (!cell.IsEmpty)
+                if (!cell.IsEmpty && !cell.isSealedFloor)
                 {
                     remainingCells.Add(cell);
                     remainingTypes.Add(cell.type);
@@ -269,7 +340,7 @@ namespace GameProcessor
                     if (!IsInsideGrid(x, y)) continue;
 
                     Card cell = _cells[x, y];
-                    if (cell == null || cell.IsEmpty) continue;
+                    if (!cell || cell.IsEmpty || cell.isSealedFloor) continue;
 
                     score += (int)cell.type;
                     ++pairs;

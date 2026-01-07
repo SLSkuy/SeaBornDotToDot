@@ -2,7 +2,7 @@ namespace CellCard
 {
     public enum CardType
     {
-        ShadowMark = -2,
+        SealedFloor = -2,
         None = -1,
         A,
         B,
@@ -22,8 +22,7 @@ namespace CellCard
         P,
         Q,
         R,
-        S,
-        T,
-        U,
+        QiQuDan,
+        ShenMingYinHenZhe,
     }
 }

@@ -277,5 +277,6 @@ MonoBehaviour:
   y: 0
   type: -1
   isSelected: 0
+  isSealedFloor: 0
   img: {fileID: 6712395610885834706}
   background: {fileID: 4248909876382154801}
