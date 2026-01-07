@@ -18,6 +18,12 @@ namespace CellCard
         [Header("图片渲染")]
         [SerializeField]private SpriteRenderer img;
         [SerializeField]private SpriteRenderer background;
+        private Material _defaultMaterial;
+
+        private void Awake()
+        {
+            _defaultMaterial = img.material;
+        }
         
         #region 成员方法
 
@@ -36,6 +42,8 @@ namespace CellCard
         {
             type = cardType;
             img.sprite = sprite;
+            img.material = _defaultMaterial;
+            isSealedFloor = false;
             
             img.enabled = enabled;
             background.enabled = true;
