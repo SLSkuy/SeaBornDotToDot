@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GameProcessor;
+using SkillManager;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -20,24 +21,60 @@ namespace CellCard.ToolCards
             Vector3 originScale = t.localScale;
 
             Sequence seq = DOTween.Sequence();
-            
             seq.Append(t.DOScale(originScale * 1.1f, 0.2f));
             seq.Append(t.DOScale(originScale, 0.15f));
 
             seq.OnComplete(() =>
             {
-                ClearRandomSealedRows();
-                base.StartSkill();
+                PlayHelperAndClear();
             });
         }
 
-        private void ClearRandomSealedRows()
+        /// <summary>
+        /// 只对选中的行播放动画，动画结束立刻清该行
+        /// </summary>
+        private void PlayHelperAndClear()
         {
             GridManager grid = GameManager.Instance.gridManager;
+            List<int> rows = GetRandomSealedRows(grid);
 
+            if (rows.Count == 0)
+            {
+                base.StartSkill();
+                return;
+            }
+
+            int index = 0;
+
+            void PlayNextRow()
+            {
+                if (index >= rows.Count)
+                {
+                    base.StartSkill();
+                    return;
+                }
+
+                int row = rows[index];
+
+                SkillAnimationManager.Instance.StartHelperSkill(row, () =>
+                {
+                    grid.ClearSealedRows(new List<int> { row });
+
+                    index++;
+                    PlayNextRow();
+                });
+            }
+
+            PlayNextRow();
+        }
+
+        /// <summary>
+        /// 随机获取包含溟痕的行
+        /// </summary>
+        private List<int> GetRandomSealedRows(GridManager grid)
+        {
             List<int> availableRows = new List<int>();
 
-            // 收集包含溟痕的行
             for (int y = 1; y <= grid.gridSize.y; y++)
             {
                 for (int x = 1; x <= grid.gridSize.x; x++)
@@ -51,9 +88,6 @@ namespace CellCard.ToolCards
                 }
             }
 
-            if (availableRows.Count == 0) return;
-
-            // 随机选行
             List<int> selected = new List<int>();
             int count = Mathf.Min(clearRowCount, availableRows.Count);
 
@@ -64,7 +98,7 @@ namespace CellCard.ToolCards
                 availableRows.RemoveAt(index);
             }
 
-            grid.ClearSealedRows(selected);
+            return selected;
         }
     }
 }
