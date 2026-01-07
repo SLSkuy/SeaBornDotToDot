@@ -34,6 +34,8 @@ namespace CellCard.ToolCards
                 int y = Random.Range(1, GameManager.Instance.gridManager.gridSize.y);
                 Vector3 targetPos = GameManager.Instance.gridManager.GetCellWorldPosition(x, y);
                 
+                AudioManager.Instance.PlayerMan();
+                
                 SkillAnimationManager.Instance.StartBladeSkill(targetPos, () =>
                 {
                     GameManager.Instance.gridManager.BombAt(x, y, bombRadius);

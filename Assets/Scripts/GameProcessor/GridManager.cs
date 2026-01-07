@@ -391,8 +391,6 @@ namespace GameProcessor
             // 奇数修正
             FixOddCardTypes();
             
-            Debug.Log(_curMatchCount + "/" + _maxMatchCount);
-            
             if (_curMatchCount == _maxMatchCount)
             {
                 Debug.Log("消除完毕");

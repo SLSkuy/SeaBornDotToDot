@@ -10,6 +10,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip mainBGM;
     public AudioClip shopBGM;
     public AudioClip gameOverBGM;
+    
+    [Header("叠加音频")]
+    [Range(0f, 1f)] public float overlayVolume = 1f;
+    [SerializeField] private AudioSource overlaySource;
+    public AudioClip man;
 
     [Header("过渡设置")]
     [Range(0.1f, 5f)]
@@ -38,6 +43,9 @@ public class AudioManager : MonoBehaviour
 
         InitSource(sourceA);
         InitSource(sourceB);
+        
+        overlaySource.playOnAwake = false;
+        overlaySource.loop = false;
 
         _current = sourceA;
         _next = sourceB;
@@ -51,6 +59,12 @@ public class AudioManager : MonoBehaviour
     }
 
     #region 对外接口
+
+    public void PlayerMan()
+    {
+        _isShopBGM = false;
+        PlayOverlay(man);
+    }
 
     public void PlayMainBGM()
     {
@@ -71,6 +85,12 @@ public class AudioManager : MonoBehaviour
     }
 
     #endregion
+    
+    public void PlayOverlay(AudioClip clip, float volume = 1f)
+    {
+        if (clip == null) return;
+        overlaySource.PlayOneShot(clip, volume * overlayVolume);
+    }
 
     private void PlayBGM(AudioClip clip)
     {
