@@ -20,14 +20,14 @@ namespace UI.GameSceneUI
         {
             GameManager.Instance.OnScoreUpdate += UpdateScore;
             GameManager.Instance.OnRoundUpdate += RoundUpdate;
-            GameManager.Instance.OnStepUpdate += StepUpdate;
+            GameManager.Instance.OnTimeUpdate += TimeUpdate;
         }
 
         private void OnDestroy()
         {
             GameManager.Instance.OnScoreUpdate -= UpdateScore;
             GameManager.Instance.OnRoundUpdate -= RoundUpdate;
-            GameManager.Instance.OnStepUpdate -= StepUpdate;
+            GameManager.Instance.OnTimeUpdate -= TimeUpdate;
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace UI.GameSceneUI
             roundText.text = round.ToString();
         }
 
-        private void StepUpdate(int step)
+        private void TimeUpdate(int step)
         {
             stepText.text = step.ToString();
         }

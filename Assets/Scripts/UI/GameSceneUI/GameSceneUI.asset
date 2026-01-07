@@ -21,3 +21,5 @@ MonoBehaviour:
     uiPrefab: {fileID: 9186608704996300363, guid: b51c921795870794e812658a5a09f43f, type: 3}
   - isEnableOnRegister: 0
     uiPrefab: {fileID: 2418230615188063949, guid: 5897128d7beeacb47b869652893b4502, type: 3}
+  - isEnableOnRegister: 0
+    uiPrefab: {fileID: 6643938792371263857, guid: be9bf243a77d0ad4caf80d610dfa87eb, type: 3}

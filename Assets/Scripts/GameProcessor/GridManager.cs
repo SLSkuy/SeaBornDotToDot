@@ -23,7 +23,7 @@ namespace GameProcessor
         public Sprite sealedFloor;
         public Material sealedFloorMat;
         
-        [Tooltip("每多少行动值扩张一次")]public int expendRate;
+        [Tooltip("每多少行动值扩张一次")]public int expendRate = 15;
         private int _lastExpend;
         private readonly HashSet<Vector2Int> _sealedCells = new();
         
@@ -77,6 +77,7 @@ namespace GameProcessor
 
             GameManager.Instance.OnLockDot += OnLock;
             GameManager.Instance.OnUnlockDot += OnUnlock;
+            GameManager.Instance.OnTimeUpdate += SealedAction;
             
             GenerateGrid();
         }
@@ -91,6 +92,7 @@ namespace GameProcessor
             
             GameManager.Instance.OnLockDot -= OnLock;
             GameManager.Instance.OnUnlockDot -= OnUnlock;
+            GameManager.Instance.OnTimeUpdate -= SealedAction;
         }
 
         private void Update()
@@ -112,8 +114,6 @@ namespace GameProcessor
             
             OnMatch?.Invoke((int)cardType + 1, 1);
             
-            SealedAction();
-            
             if (_curMatchCount == _maxMatchCount)
             {
                 Debug.Log("消除完毕");
@@ -126,7 +126,7 @@ namespace GameProcessor
         /// <summary>
         /// 溟痕逻辑
         /// </summary>
-        private void SealedAction()
+        private void SealedAction(int time)
         {
             _lastExpend++;
 

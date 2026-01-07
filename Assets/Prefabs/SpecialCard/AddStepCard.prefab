@@ -145,4 +145,4 @@ MonoBehaviour:
   icon: {fileID: -8635070735064948194, guid: 716d8c817f88a594e90fec009594a2b3, type: 3}
   cardName: "\u6843\u91D1\u5A18"
   image: {fileID: 1975230941506318516}
-  addStepCount: 2
+  addStepCount: 15

@@ -203,7 +203,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 95542310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2083823090}
+        m_TargetAssemblyTypeName: GameProcessor.GameManager, Assembly-CSharp
+        m_MethodName: UI_ExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &95542310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +360,7 @@ MonoBehaviour:
   - {fileID: -8412804858804056585, guid: 6f9ae83302cb7204dbf07078c4e8dc2e, type: 3}
   sealedFloor: {fileID: -1332438265095670851, guid: b0179731bf384f14482ed26b210cc1a8, type: 3}
   sealedFloorMat: {fileID: -876546973899608171, guid: d610d41b1f2f01c489dfb3f3c0299bd0, type: 3}
-  expendRate: 7
+  expendRate: 15
   cam: {fileID: 519420031}
   cellLayer:
     serializedVersion: 2
@@ -2534,7 +2546,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.GameManager
   score: 0
   roundCount: 3
-  stepPerRound: 5
+  roundTime: 30
   gridManager: {fileID: 134129527}
   specialCardManager: {fileID: 2083823091}
   missionManager: {fileID: 2083823092}

@@ -10,16 +10,30 @@ namespace UI.GameSceneUI
         {
             Signals.Get<ExitShop>().AddListener(ExitShop);
 
+            GameManager.Instance.OnRoundChange += ShowRoundView;
             GameManager.Instance.OnShopTime += ShowShop;
         }
 
         protected override void RemoveSignal()
         {
             Signals.Get<ExitShop>().RemoveListener(ExitShop);
-            
+
+            GameManager.Instance.OnRoundChange -= ShowRoundView;
             GameManager.Instance.OnShopTime -= ShowShop;
         }
 
+        private void ShowRoundView(string text)
+        {
+            UIFrame.ShowUI("RoundViewPanel", new RoundViewPanelProp(text));
+            
+            Invoke(nameof(HideRoundView), 1f);
+        }
+
+        private void HideRoundView()
+        {
+            UIFrame.HideUI("RoundViewPanel");
+        }
+        
         private void ExitShop()
         {
             UIFrame.HideUI("ShopPanel");

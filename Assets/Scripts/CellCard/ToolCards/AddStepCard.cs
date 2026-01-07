@@ -25,7 +25,7 @@ namespace CellCard.ToolCards
 
             seq.OnComplete(() =>
             {
-                GameManager.Instance.AddStep(addStepCount);
+                GameManager.Instance.AddTime(addStepCount);
                 base.StartSkill();
             });
         }

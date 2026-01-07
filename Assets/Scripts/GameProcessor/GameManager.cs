@@ -15,7 +15,10 @@ namespace GameProcessor
 
         [Header("回合数据")] 
         public int roundCount = 3;
-        public int stepPerRound = 5;
+        public float roundTime = 30f;   // 每回合秒数
+        private float _currentTime;
+        private int _lastSecond;
+        private bool _isTiming;
         
         [Header("组件引用")]
         public GridManager gridManager;
@@ -23,9 +26,8 @@ namespace GameProcessor
         public MissionManager missionManager;
         public ShopManager shopManager;
         
-        public int CurrentRound {get => _currentRound;}
+        public int CurrentRound => _currentRound;
         private int _currentRound;
-        private int _currentStep;
         
         private bool _isGameOver;
 
@@ -33,6 +35,8 @@ namespace GameProcessor
 
         public event Action OnPreSpecialCard;
         public event Action OnPostSpecialCard;
+
+        public event Action<string> OnRoundChange;
         
         public event Action OnShopTime;
 
@@ -40,7 +44,7 @@ namespace GameProcessor
         public event Action OnUnlockDot;
         
         public event Action<int> OnRoundUpdate;
-        public event Action<int> OnStepUpdate;
+        public event Action<int> OnTimeUpdate;
         public event Action<int> OnScoreUpdate;
 
         #endregion
@@ -61,8 +65,11 @@ namespace GameProcessor
         {
             score = 0;
             
+            // 初始化计时器
             _currentRound = roundCount;
-            _currentStep = stepPerRound;
+            _isTiming = true;
+            _currentTime = roundTime;
+            _lastSecond = Mathf.CeilToInt(_currentTime);
             
             // 任务管理器回调
             missionManager.OnGameOver += GameOver;
@@ -80,8 +87,8 @@ namespace GameProcessor
             // 数据更新
             OnScoreUpdate?.Invoke(score);
             OnRoundUpdate?.Invoke(_currentRound);
-            OnStepUpdate?.Invoke(_currentStep);
-            
+            OnTimeUpdate?.Invoke(_lastSecond);
+
             AudioManager.Instance.PlayMainBGM();
             
             Signals.Get<ExitShop>().AddListener(OnShoppingFinished);
@@ -101,8 +108,47 @@ namespace GameProcessor
             
             Signals.Get<ExitShop>().RemoveListener(OnShoppingFinished);
         }
+        
+        private void Update()
+        {
+            if (_isGameOver || !_isTiming) return;
+
+            _currentTime -= Time.deltaTime;
+            if (_currentTime < 0)
+                _currentTime = 0;
+
+            int currentSecond = Mathf.CeilToInt(_currentTime);
+
+            if (currentSecond != _lastSecond)
+            {
+                _lastSecond = currentSecond;
+                OnTimeUpdate?.Invoke(currentSecond);
+            }
+
+            if (_currentTime <= 0)
+            {
+                EndRoundByTime();
+            }
+        }
+
+        public void UI_ExitGame()
+        {
+            SceneLoader.LoadScene("MainScene");
+        }
 
         #region 游戏事件
+        
+        private void EndRoundByTime()
+        {
+            _isTiming = false;
+
+            // 禁用连连看
+            OnLockDot?.Invoke();
+            OnRoundChange?.Invoke("回合结束");
+
+            // 进入后手卡牌处理
+            CalculateSpecialCard();
+        }
 
         public void GameOver()
         {
@@ -114,10 +160,10 @@ namespace GameProcessor
         }
         
         public void AddRound(int i) => _currentRound += i;
-        public void AddStep(int i)
+        public void AddTime(int i)
         {
-            _currentStep += i;
-            OnStepUpdate?.Invoke(_currentStep);
+            _currentTime += i;
+            OnTimeUpdate?.Invoke(Mathf.CeilToInt(_currentTime));
         }
 
         #endregion
@@ -144,25 +190,10 @@ namespace GameProcessor
         
         private void OnCellMatch(int s, int pairs)
         {
-            // 基础分数计算
             score += s;
-            --_currentStep;
-            
-            // 回合结束处理
-            if (_currentStep <= 0)
-            {
-                // 禁用连连看
-                OnLockDot?.Invoke();
-                
-                // 处理卡牌效果
-                CalculateSpecialCard();
-            }
-            
-            // 更新分数
-            OnStepUpdate?.Invoke(_currentStep);
             OnScoreUpdate?.Invoke(score);
         }
-
+        
         private void OnCellBomb(int s, int pairs)
         {
             score += s;
@@ -184,9 +215,13 @@ namespace GameProcessor
 
         private void OnShoppingFinished()
         {
-            // 处理先机特殊卡片效果
+            // 先机卡
             OnPreSpecialCard?.Invoke();
             AudioManager.Instance.PlayMainBGM();
+            
+            // 重置时间
+            _currentTime = roundTime;
+            OnTimeUpdate?.Invoke((int)_currentTime);
         }
 
         #endregion
@@ -201,27 +236,24 @@ namespace GameProcessor
 
         private void PreCardProcessFinished()
         {
+            // 开始计时
+            _isTiming = true;
             OnUnlockDot?.Invoke();
+            OnRoundChange?.Invoke("回合开始");
         }
 
         private void PostCardProcessFinished()
         {
-            // 回合检测
             missionManager.OnRoundEndCheck();
-            
-            // 更新回合
-            _currentStep = stepPerRound;
+
             --_currentRound;
-            
-            // 更新回合数等信息
             OnRoundUpdate?.Invoke(_currentRound);
-            OnStepUpdate?.Invoke(_currentStep);
 
             if (_isGameOver) return;
-            
-            // 后手卡片处理完毕后开启商店
+
             OnShopping();
         }
+
 
         #endregion
     }
