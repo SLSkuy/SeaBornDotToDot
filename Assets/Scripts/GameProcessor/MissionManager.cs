@@ -141,6 +141,13 @@ namespace GameProcessor
         private void HandleMissionFail()
         {
             Debug.Log("【任务未完成，进度延续】");
+            
+            int reward = 0;
+            
+            // 奖励根据差值比例计算
+            reward += rewardGold * _currentCompletedPairs /  _currentTargetPairs;
+            
+            OnMissionCompleted?.Invoke(reward);
 
             // 如果回合耗尽 -> 游戏结束
             if (_game.CurrentRound <= 0)

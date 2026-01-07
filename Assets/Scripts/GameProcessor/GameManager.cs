@@ -82,6 +82,8 @@ namespace GameProcessor
             OnRoundUpdate?.Invoke(_currentRound);
             OnStepUpdate?.Invoke(_currentStep);
             
+            AudioManager.Instance.PlayMainBGM();
+            
             Signals.Get<ExitShop>().AddListener(OnShoppingFinished);
         }
 
@@ -177,12 +179,14 @@ namespace GameProcessor
             if (_isGameOver) return;
             
             OnShopTime?.Invoke();
+            AudioManager.Instance.PlayShopBGM();
         }
 
         private void OnShoppingFinished()
         {
             // 处理先机特殊卡片效果
             OnPreSpecialCard?.Invoke();
+            AudioManager.Instance.PlayMainBGM();
         }
 
         #endregion

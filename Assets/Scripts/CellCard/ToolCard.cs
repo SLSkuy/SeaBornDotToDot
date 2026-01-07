@@ -12,8 +12,9 @@ namespace CellCard
         public ToolCardType toolType;
         public ToolCardTiming timing;
         public Sprite icon;
+        public string cardName;
 
-        private Image _image;
+        [SerializeField]private Image image;
 
         public event Action OnSkillFinished;
 
@@ -26,7 +27,7 @@ namespace CellCard
         {
             if (icon != null)
             {
-                _image.sprite = icon;
+                image.sprite = icon;
             }
         }
     }

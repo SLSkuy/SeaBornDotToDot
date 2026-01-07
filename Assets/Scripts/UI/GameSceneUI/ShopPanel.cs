@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CellCard;
 using EventProcess;
@@ -21,6 +22,9 @@ namespace UI.GameSceneUI
         public Transform container;
         private readonly List<GameObject> _items = new();
         private List<ShopItemData> _currentShopItems;
+        
+        [Header("音频设置")]
+        [SerializeField]private AudioSource audioPlayer;
 
         private void Start()
         {
@@ -49,7 +53,8 @@ namespace UI.GameSceneUI
                 ShopItem shopItem = item.GetComponent<ShopItem>();
                 
                 // 初始化商品信息
-                shopItem.Init(i, _currentShopItems[i].price, this, _currentShopItems[i].cardPrefab.icon);
+                shopItem.Init(i, _currentShopItems[i].price, _currentShopItems[i].cardPrefab.cardName,
+                    this, _currentShopItems[i].cardPrefab.icon);
                 
                 _items.Add(item);
             }

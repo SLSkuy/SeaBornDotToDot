@@ -1,0 +1,115 @@
+using System.Collections;
+using UnityEngine;
+
+public class AudioManager : MonoBehaviour
+{
+    public static AudioManager Instance { get; private set; }
+
+    [Header("各界面音频")]
+    public AudioClip mainBGM;
+    public AudioClip shopBGM;
+
+    [Header("过渡设置")]
+    [Range(0.1f, 5f)]
+    public float fadeDuration = 1.2f;
+    [Range(0, 1f)] 
+    public float maxVolume = 1f;
+
+    [SerializeField]private AudioSource sourceA;
+    [SerializeField]private AudioSource sourceB;
+    private AudioSource _current;
+    private AudioSource _next;
+
+    private Coroutine _fadeCoroutine;
+
+    private bool _isShopBGM;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        InitSource(sourceA);
+        InitSource(sourceB);
+
+        _current = sourceA;
+        _next = sourceB;
+    }
+
+    private void InitSource(AudioSource source)
+    {
+        source.loop = true;
+        source.playOnAwake = false;
+        source.volume = 0f;
+    }
+
+    #region 对外接口
+
+    public void PlayMainBGM()
+    {
+        _isShopBGM = true;
+        PlayBGM(mainBGM);
+    }
+
+    public void PlayShopBGM()
+    {
+        _isShopBGM = false;
+        PlayBGM(shopBGM);
+    }
+
+    #endregion
+
+    private void PlayBGM(AudioClip clip)
+    {
+        if (_current.clip == clip)
+            return;
+
+        if (_fadeCoroutine != null)
+            StopCoroutine(_fadeCoroutine);
+
+        _next.clip = clip;
+        _fadeCoroutine = StartCoroutine(CrossFade());
+    }
+
+    private IEnumerator CrossFade()
+    {
+        _next.volume = 0f;
+        _next.Play();
+
+        float time = 0f;
+        float startVolume = _current.volume;
+
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            float t = time / fadeDuration;
+
+            _current.volume = Mathf.Lerp(startVolume, 0f, t);
+            _next.volume = Mathf.Lerp(0f, maxVolume, t);
+
+            yield return null;
+        }
+
+        if (_isShopBGM)
+        {
+            _current.Stop();
+        }
+        
+        else
+        {
+            _current.Pause();
+        }
+        
+        _current.volume = 0f;
+        _next.volume = maxVolume;
+
+        // 交换
+        (_current, _next) = (_next, _current);
+    }
+}

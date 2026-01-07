@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8635070735064948194, guid: 716d8c817f88a594e90fec009594a2b3, type: 3}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -92,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u884C\u52A8\u503C++"
       objectReference: {fileID: 0}
+    - target: {fileID: 3133683854771437420, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7359044358390248699, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Name
       value: AddStepCard
@@ -104,6 +112,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -2107727325223049237}
   m_SourcePrefab: {fileID: 100100000, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+--- !u!114 &1975230941506318516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+  m_PrefabInstance: {fileID: 1838399822089443309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &9197438128736510742 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7359044358390248699, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
@@ -123,4 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.AddStepCard
   toolType: 1
   timing: 0
+  icon: {fileID: -8635070735064948194, guid: 716d8c817f88a594e90fec009594a2b3, type: 3}
+  cardName: "\u6843\u91D1\u5A18"
+  image: {fileID: 1975230941506318516}
   addStepCount: 2

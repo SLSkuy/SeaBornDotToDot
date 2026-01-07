@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -9126554092626850498, guid: 77ab9c2ad4cbd0040817858c97127e83, type: 3}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -92,9 +96,13 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u6D17\u724C"
       objectReference: {fileID: 0}
+    - target: {fileID: 3133683854771437420, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7359044358390248699, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Name
-      value: SpecialCard
+      value: ShuffleCard
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104,6 +112,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7125358382016333094}
   m_SourcePrefab: {fileID: 100100000, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+--- !u!114 &414388432670119378 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+  m_PrefabInstance: {fileID: 516248073136321163}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1 &6992550052534437488 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7359044358390248699, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
@@ -123,3 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.ShuffleCard
   toolType: 0
   timing: 1
+  icon: {fileID: -9126554092626850498, guid: 77ab9c2ad4cbd0040817858c97127e83, type: 3}
+  cardName: "\u5927\u6D0B\u6E38\u4FA0"
+  image: {fileID: 414388432670119378}

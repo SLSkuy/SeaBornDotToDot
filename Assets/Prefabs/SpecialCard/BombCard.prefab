@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8086060297986246750, guid: dd4a3a2e6748ab543b3172311c9e016e, type: 3}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -92,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u7206\u70B8"
       objectReference: {fileID: 0}
+    - target: {fileID: 3133683854771437420, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7359044358390248699, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_Name
       value: BombCard
@@ -123,4 +131,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.BombCard
   toolType: 0
   timing: 1
+  icon: {fileID: 8086060297986246750, guid: dd4a3a2e6748ab543b3172311c9e016e, type: 3}
+  cardName: "\u6D77\u8D85\u4EBA"
+  image: {fileID: 7402496072192762863}
   bombRadius: 2
+--- !u!114 &7402496072192762863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 210016576363063129, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
+  m_PrefabInstance: {fileID: 7228508314493404342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image

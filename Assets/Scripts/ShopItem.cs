@@ -6,6 +6,7 @@ public class ShopItem : MonoBehaviour
 {
     [Header("商品属性")]
     public int id;
+    public Text title;
     
     [Header("组件获取")]
     public Image icon;
@@ -14,11 +15,13 @@ public class ShopItem : MonoBehaviour
     
     private ShopPanel _panel;
 
-    public void Init(int i, int price, ShopPanel panel, Sprite sprite = null)
+    public void Init(int i, int price, string t, ShopPanel panel, Sprite sprite = null)
     {
         id = i;
         _panel = panel;
+        title.text = t;
         priceText.text = price.ToString();
+        icon.sprite = sprite;
         buy.onClick.AddListener(OnBuy);
 
         if (!sprite)
