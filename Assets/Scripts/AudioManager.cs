@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [Header("各界面音频")]
     public AudioClip mainBGM;
     public AudioClip shopBGM;
+    public AudioClip gameOverBGM;
 
     [Header("过渡设置")]
     [Range(0.1f, 5f)]
@@ -53,14 +55,20 @@ public class AudioManager : MonoBehaviour
 
     public void PlayMainBGM()
     {
-        _isShopBGM = true;
+        _isShopBGM = false;
         PlayBGM(mainBGM);
     }
 
     public void PlayShopBGM()
     {
-        _isShopBGM = false;
+        _isShopBGM = true;
         PlayBGM(shopBGM);
+    }
+
+    public void PlayGameOverBGM()
+    {
+        _isShopBGM = false;
+        PlayBGM(gameOverBGM);
     }
 
     #endregion
@@ -96,11 +104,10 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
 
-        if (_isShopBGM)
+        if (!_isShopBGM)
         {
             _current.Stop();
         }
-        
         else
         {
             _current.Pause();

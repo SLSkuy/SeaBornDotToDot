@@ -6,12 +6,6 @@ namespace CellCard.ToolCards
 {
     public class ShuffleCard : ToolCard
     {
-        private void Awake()
-        {
-            toolType = ToolCardType.Shuffle;
-            timing = ToolCardTiming.Post;
-        }
-
         public override void StartSkill()
         {
             // 播放卡牌晃动动画

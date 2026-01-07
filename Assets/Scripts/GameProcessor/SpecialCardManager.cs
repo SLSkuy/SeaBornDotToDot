@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CellCard;
+using UI;
 using UnityEngine;
 
 namespace GameProcessor
@@ -9,7 +10,7 @@ namespace GameProcessor
     public class SpecialCardManager : MonoBehaviour
     {
         [Header("特殊卡牌")] 
-        public Transform container;
+        public AutoHorizontalLayout container;
         public List<ToolCard> specialCards;
 
         [Header("处理过程属性")] 
@@ -86,7 +87,7 @@ namespace GameProcessor
         
         public void AddCard(ToolCard card)
         {
-            card.transform.SetParent(container, false);
+            container.RegisterCard(card.transform as RectTransform);
             specialCards.Add(card);
         }
     }

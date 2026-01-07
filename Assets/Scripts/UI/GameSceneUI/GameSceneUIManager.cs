@@ -10,6 +10,7 @@ namespace UI.GameSceneUI
         {
             Signals.Get<ExitShop>().AddListener(ExitShop);
 
+            GameManager.Instance.OnGameOver += ShowGameOver;
             GameManager.Instance.OnRoundChange += ShowRoundView;
             GameManager.Instance.OnShopTime += ShowShop;
         }
@@ -18,8 +19,14 @@ namespace UI.GameSceneUI
         {
             Signals.Get<ExitShop>().RemoveListener(ExitShop);
 
+            GameManager.Instance.OnGameOver -= ShowGameOver;
             GameManager.Instance.OnRoundChange -= ShowRoundView;
             GameManager.Instance.OnShopTime -= ShowShop;
+        }
+
+        private void ShowGameOver()
+        {
+            UIFrame.ShowUI("GameOverPanel");
         }
 
         private void ShowRoundView(string text)

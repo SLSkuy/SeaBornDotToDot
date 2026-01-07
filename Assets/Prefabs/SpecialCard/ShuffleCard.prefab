@@ -22,19 +22,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_SizeDelta.x
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.ShuffleCard
   toolType: 0
-  timing: 1
+  timing: 0
   icon: {fileID: -9126554092626850498, guid: 77ab9c2ad4cbd0040817858c97127e83, type: 3}
   cardName: "\u5927\u6D0B\u6E38\u4FA0"
   image: {fileID: 414388432670119378}

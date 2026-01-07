@@ -6,4 +6,9 @@ public class MainSceneManager : MonoBehaviour
     {
         SceneLoader.LoadScene("GameScene");
     }
+
+    public void UI_ExitGameButton()
+    {
+        Application.Quit();
+    }
 }

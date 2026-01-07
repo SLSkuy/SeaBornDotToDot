@@ -22,19 +22,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120897663826658452, guid: b58a41e3a2f3b4e448033057d31ac137, type: 3}
       propertyPath: m_SizeDelta.x
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellCard.ToolCards.CleanSealedCard
   toolType: 0
-  timing: 1
+  timing: 0
   icon: {fileID: 3995635894459051181, guid: d4810ccbc70111247a13ce5365906709, type: 3}
   cardName: "\u5C0F\u5E2E\u624B"
   image: {fileID: 3045212400188136449}

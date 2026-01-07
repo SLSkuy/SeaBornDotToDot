@@ -37,6 +37,7 @@ namespace GameProcessor
         public event Action OnPostSpecialCard;
 
         public event Action<string> OnRoundChange;
+        public event Action OnGameOver;
         
         public event Action OnShopTime;
 
@@ -156,7 +157,10 @@ namespace GameProcessor
             
             _isGameOver = true;
             
+            OnGameOver?.Invoke();
             OnLockDot?.Invoke();
+            
+            AudioManager.Instance.PlayGameOverBGM();
         }
         
         public void AddRound(int i) => _currentRound += i;

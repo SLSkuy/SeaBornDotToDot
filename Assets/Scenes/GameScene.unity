@@ -1826,7 +1826,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2946406662969158695, guid: 7d9e095a930a4c0409d5ea6bc0028d06, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1851090831}
+      addedObject: {fileID: 1851090829}
   m_SourcePrefab: {fileID: 100100000, guid: 7d9e095a930a4c0409d5ea6bc0028d06, type: 3}
 --- !u!224 &1025686054 stripped
 RectTransform:
@@ -2170,6 +2170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   mainBGM: {fileID: 8300000, guid: fefd518c77e058f4f89ea47d11e5b600, type: 3}
   shopBGM: {fileID: 8300000, guid: ff9dc58a7393f0b4e918a8bafc4ec9f8, type: 3}
+  gameOverBGM: {fileID: 8300000, guid: 3091513ebedc9a141a88025077e0789f, type: 3}
   fadeDuration: 2
   maxVolume: 0.2
   sourceA: {fileID: 1810265138}
@@ -2378,7 +2379,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5561651227633459307, guid: 7d9e095a930a4c0409d5ea6bc0028d06, type: 3}
   m_PrefabInstance: {fileID: 1025686053}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1851090831
+--- !u!114 &1851090829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2387,23 +2388,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1851090827}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 831956c187d24ddbb41664cc19e4a9b3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.HorizontalLayoutGroup
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 20
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_EditorClassIdentifier: Assembly-CSharp::UI.AutoHorizontalLayout
+  layoutArea: {fileID: 1851090828}
+  cardWidth: 150
+  spacing: 20
+  moveDuration: 0.35
+  moveEase: 9
 --- !u!1 &1862382334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,7 +2555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec06b50a2944f2bb763f25c9b068337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.SpecialCardManager
-  container: {fileID: 1851090828}
+  container: {fileID: 1851090829}
   specialCards: []
   processStep: 0.5
   windUpTime: 1
