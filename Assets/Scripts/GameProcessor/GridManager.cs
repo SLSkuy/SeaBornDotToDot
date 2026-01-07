@@ -103,6 +103,20 @@ namespace GameProcessor
             }
         }
         
+        /// <summary>
+        /// 获取指定逻辑格子的世界坐标
+        /// </summary>
+        public Vector3 GetCellWorldPosition(int x, int y)
+        {
+            if (!IsInsideGrid(x, y))
+            {
+                return Vector3.zero;
+            }
+            
+            Vector3Int cellPos = new Vector3Int(x, y, 0);
+            return grid.GetCellCenterWorld(cellPos);
+        }
+        
         private bool IsInsideGrid(int x, int y)
         {
             return x > 0 && x <= gridSize.x && y > 0 && y <= gridSize.y;

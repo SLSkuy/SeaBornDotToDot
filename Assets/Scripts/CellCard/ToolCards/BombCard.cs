@@ -1,5 +1,6 @@
 using DG.Tweening;
 using GameProcessor;
+using SkillManager;
 using UnityEngine;
 
 namespace CellCard.ToolCards
@@ -21,25 +22,25 @@ namespace CellCard.ToolCards
             Sequence seq = DOTween.Sequence();
 
             seq.Append(
-                t.DOShakePosition(
-                    0.3f,
-                    strength: new Vector3(25f, 25f, 0f),
-                    vibrato: 30
-                )
+                t.DOShakePosition(0.3f, new Vector3(25f, 25f, 0f), 30)
             );
 
             seq.OnComplete(() =>
             {
                 t.localPosition = originPos;
 
-                // 这里你可以根据选中格子或中心点炸
-                int x = Random.Range(0,GameManager.Instance.gridManager.gridSize.x);
-                int y = Random.Range(0,GameManager.Instance.gridManager.gridSize.y);
+                // 随机目标格子位置
+                int x = Random.Range(1, GameManager.Instance.gridManager.gridSize.x);
+                int y = Random.Range(1, GameManager.Instance.gridManager.gridSize.y);
+                Vector3 targetPos = GameManager.Instance.gridManager.GetCellWorldPosition(x, y);
                 
-                GameManager.Instance.gridManager.BombAt(x, y, bombRadius);
-
-                base.StartSkill();
+                SkillAnimationManager.Instance.StartBladeSkill(targetPos, () =>
+                {
+                    GameManager.Instance.gridManager.BombAt(x, y, bombRadius);
+                    base.StartSkill();
+                });
             });
         }
+
     }
 }
