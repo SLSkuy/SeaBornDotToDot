@@ -1,8 +1,10 @@
+using CellCard;
 using UI.GameSceneUI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ShopItem : MonoBehaviour
+public class ShopItem : MonoBehaviour, IPointerEnterHandler
 {
     [Header("商品属性")]
     public int id;
@@ -12,26 +14,31 @@ public class ShopItem : MonoBehaviour
     public Image icon;
     public Button buy;
     public Text priceText;
+    public string description;
     
     private ShopPanel _panel;
 
-    public void Init(int i, int price, string t, ShopPanel panel, Sprite sprite = null)
+    public void Init(int i, int price, ToolCard card, ShopPanel panel)
     {
         id = i;
         _panel = panel;
-        title.text = t;
+        title.text = card.cardName;
+        description = card.description;
         priceText.text = price.ToString();
-        icon.sprite = sprite;
+        icon.sprite = card.icon;
         buy.onClick.AddListener(OnBuy);
-
-        if (!sprite)
-        {
-            icon.sprite = sprite;
-        }
     }
 
     private void OnBuy()
     {
         _panel.TryBuyItem(id);
+    }
+    
+    /// <summary>
+    /// 鼠标移入
+    /// </summary>
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _panel.ShowDescription(description);
     }
 }

@@ -160,5 +160,6 @@ MonoBehaviour:
   timing: 0
   icon: {fileID: 3995635894459051181, guid: d4810ccbc70111247a13ce5365906709, type: 3}
   cardName: "\u5C0F\u5E2E\u624B"
+  description: "\u53D7\u591F\u4E86\u6E9F\u75D5\uFF1F\u6765\u8BD5\u8BD5\u5C0F\u5E2E\u624B\u5427\uFF0C\u5B83\u80FD\u5E2E\u4F60\u6E05\u9664\u968F\u673A\u4E00\u6574\u884C\u7684\u6E9F\u75D5\uFF01\uFF01"
   image: {fileID: 3045212400188136449}
   clearRowCount: 1

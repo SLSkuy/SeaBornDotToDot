@@ -316,11 +316,13 @@ namespace GameProcessor
                 for (int x = 1; x <= gridSize.x; x++)
                 {
                     Card cell = _cells[x, row];
+                    
                     if (cell && cell.isSealedFloor)
                     {
                         cell.ClearSealedFloor();
-                        _sealedCells.Remove(new Vector2Int(x, row));
                     }
+                    
+                    _sealedCells.Remove(new Vector2Int(x, row));
                 }
             }
             

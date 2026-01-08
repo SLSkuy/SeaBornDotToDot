@@ -144,4 +144,5 @@ MonoBehaviour:
   timing: 0
   icon: {fileID: -9126554092626850498, guid: 77ab9c2ad4cbd0040817858c97127e83, type: 3}
   cardName: "\u5927\u6D0B\u6E38\u4FA0"
+  description: "\u5927\u6D0B\u6E38\u4FA0\u4F7F\u51FA\u4E86\u62BD\u6C34\u9A6C\u6876\uFF0C\u5237\u65B0\u6D77\u55E3\u7684\u4F4D\u7F6E\uFF0C\u6548\u679C\u62D4\u7FA4\uFF01"
   image: {fileID: 414388432670119378}

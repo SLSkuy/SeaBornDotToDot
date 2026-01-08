@@ -7,10 +7,16 @@ namespace UI.GameSceneUI
     public class GameOverPanel : PanelController
     {
         public Button exitButton;
+        public Text scoreText;
 
         private void Start()
         {
             exitButton.onClick.AddListener(()=>GameManager.Instance.UI_ExitGame());
+        }
+
+        private void OnEnable()
+        {
+            scoreText.text = "最终分数：" + GameManager.Instance.score;
         }
     }
 }

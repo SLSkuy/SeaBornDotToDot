@@ -2903,7 +2903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.GameManager
   score: 0
-  roundCount: 10
+  roundCount: 3
   roundTime: 30
   gridManager: {fileID: 134129527}
   specialCardManager: {fileID: 2083823091}
@@ -2967,7 +2967,7 @@ MonoBehaviour:
     price: 10
   - cardPrefab: {fileID: 5222674432110313320, guid: d5490caf99dd123418794caf4745329c, type: 3}
     price: 5
-  minRefreshCount: 3
+  minRefreshCount: 5
   maxRefreshCount: 10
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

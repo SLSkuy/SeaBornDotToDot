@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using CellCard;
 using EventProcess;
@@ -23,12 +22,18 @@ namespace UI.GameSceneUI
         private readonly List<GameObject> _items = new();
         private List<ShopItemData> _currentShopItems;
         
-        [Header("音频设置")]
-        [SerializeField]private AudioSource audioPlayer;
+        [Header("文本设置")]
+        public Text description;
+        public List<string> failToBuyText;
+        private ShopItem _lastSelectedItem;
 
         private void Start()
         {
             exitButton.onClick.AddListener(UI_ExitButton);
+            bargainButton.onClick.AddListener(() =>
+            {
+                description.text = "你是个聪明人，我们还能用聪明的办法解决问题";
+            });
 
             GameManager.Instance.OnShopTime += OnRefreshShop;
         }
@@ -36,8 +41,14 @@ namespace UI.GameSceneUI
         private void OnDestroy()
         {
             exitButton.onClick.RemoveAllListeners();
+            bargainButton.onClick.RemoveAllListeners();
             
             GameManager.Instance.OnShopTime -= OnRefreshShop;
+        }
+        
+        public void ShowDescription(string text)
+        {
+            description.text = text;
         }
 
         private void OnRefreshShop()
@@ -53,8 +64,7 @@ namespace UI.GameSceneUI
                 ShopItem shopItem = item.GetComponent<ShopItem>();
                 
                 // 初始化商品信息
-                shopItem.Init(i, _currentShopItems[i].price, _currentShopItems[i].cardPrefab.cardName,
-                    this, _currentShopItems[i].cardPrefab.icon);
+                shopItem.Init(i, _currentShopItems[i].price, _currentShopItems[i].cardPrefab, this);
                 
                 _items.Add(item);
             }
@@ -82,6 +92,11 @@ namespace UI.GameSceneUI
                 // 购买成功，移除UI
                 Destroy(_items[id]);
                 _items[id] = null;
+            }
+            else
+            {
+                string t = failToBuyText[Random.Range(0, failToBuyText.Count)];
+                description.text = t;
             }
         }
 

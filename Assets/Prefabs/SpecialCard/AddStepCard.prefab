@@ -144,5 +144,6 @@ MonoBehaviour:
   timing: 0
   icon: {fileID: -8635070735064948194, guid: 716d8c817f88a594e90fec009594a2b3, type: 3}
   cardName: "\u6843\u5927\u5C06\u519B"
+  description: "\u6843\u91D1\u5A18\u5927\u60CA\u559C\uFF01\u6765\u81EA\u675C\u6797\u7684\u5947\u5999\u9988\u8D60\uFF01\uFF01\u589E\u52A015\u6BCF\u56DE\u5408\u884C\u52A8\u503C"
   image: {fileID: 1975230941506318516}
   addStepCount: 15

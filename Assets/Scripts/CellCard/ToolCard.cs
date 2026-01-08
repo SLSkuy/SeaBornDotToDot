@@ -13,6 +13,7 @@ namespace CellCard
         public ToolCardTiming timing;
         public Sprite icon;
         public string cardName;
+        public string description;
 
         [SerializeField]private Image image;
 
