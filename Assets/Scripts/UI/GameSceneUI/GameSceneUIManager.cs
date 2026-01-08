@@ -13,6 +13,7 @@ namespace UI.GameSceneUI
             GameManager.Instance.OnGameOver += ShowGameOver;
             GameManager.Instance.OnRoundChange += ShowRoundView;
             GameManager.Instance.OnShopTime += ShowShop;
+            GameManager.Instance.OnGridRefresh += ShowGridRefresh;
         }
 
         protected override void RemoveSignal()
@@ -22,6 +23,19 @@ namespace UI.GameSceneUI
             GameManager.Instance.OnGameOver -= ShowGameOver;
             GameManager.Instance.OnRoundChange -= ShowRoundView;
             GameManager.Instance.OnShopTime -= ShowShop;
+            GameManager.Instance.OnGridRefresh -= ShowGridRefresh;
+        }
+
+        private void ShowGridRefresh()
+        {
+            UIFrame.ShowUI("GridRefreshPanel");
+            
+            Invoke(nameof(HideGridRefresh), 3f);
+        }
+
+        private void HideGridRefresh()
+        {
+            UIFrame.HideUI("GridRefreshPanel");
         }
 
         private void ShowGameOver()

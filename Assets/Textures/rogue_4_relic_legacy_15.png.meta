@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9284cd5863cbe0f4685cfa8624161b92
+guid: c541239aa51b61a469319c42ee2afb7b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -855298285791758126
-    second: 1_0
+      213: -235463921362510604
+    second: rogue_4_relic_legacy_15_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 1_0
+      name: rogue_4_relic_legacy_15_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 12
-        width: 112
-        height: 96
+        x: 0
+        y: 1
+        width: 174
+        height: 172
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2d8b16a9dbe5124f0800000000000000
-      internalID: -855298285791758126
+      spriteID: 4fc54c1afc67bbcf0800000000000000
+      internalID: -235463921362510604
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      1_0: -855298285791758126
+      rogue_4_relic_legacy_15_0: -235463921362510604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

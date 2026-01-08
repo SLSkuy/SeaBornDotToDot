@@ -323,6 +323,8 @@ namespace GameProcessor
                     }
                 }
             }
+            
+            _lastExpend = 0;
         }
         
         /// <summary>

@@ -143,6 +143,6 @@ MonoBehaviour:
   toolType: 1
   timing: 0
   icon: {fileID: -8635070735064948194, guid: 716d8c817f88a594e90fec009594a2b3, type: 3}
-  cardName: "\u6843\u91D1\u5A18"
+  cardName: "\u6843\u5927\u5C06\u519B"
   image: {fileID: 1975230941506318516}
   addStepCount: 15

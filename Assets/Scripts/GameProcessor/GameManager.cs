@@ -38,6 +38,7 @@ namespace GameProcessor
 
         public event Action<string> OnRoundChange;
         public event Action OnGameOver;
+        public event Action OnGridRefresh;
         
         public event Action OnShopTime;
 
@@ -185,6 +186,9 @@ namespace GameProcessor
 
         private IEnumerator GenerateGridAnimation()
         {
+            OnGridRefresh?.Invoke();
+            AudioManager.Instance.PlayGridRefresh();
+            
             yield return new WaitForSeconds(0.2f);
             
             gridManager.FillCells();

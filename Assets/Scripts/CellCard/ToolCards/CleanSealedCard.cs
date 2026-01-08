@@ -24,10 +24,7 @@ namespace CellCard.ToolCards
             seq.Append(t.DOScale(originScale * 1.1f, 0.2f));
             seq.Append(t.DOScale(originScale, 0.15f));
 
-            seq.OnComplete(() =>
-            {
-                PlayHelperAndClear();
-            });
+            seq.OnComplete(PlayHelperAndClear);
         }
 
         /// <summary>

@@ -135,7 +135,7 @@ MonoBehaviour:
   uiControllerID: RoundViewPanel
   isVisible: 0
   properties:
-    priority: 0
+    priority: 1
   text: {fileID: 2204775319696603009}
 --- !u!114 &8850209521462091174
 MonoBehaviour:

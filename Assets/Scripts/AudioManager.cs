@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip mainBGM;
     public AudioClip shopBGM;
     public AudioClip gameOverBGM;
+    public AudioClip gridRefreshBGM;
     
     [Header("叠加音频")]
     [Range(0f, 1f)] public float overlayVolume = 1f;
@@ -59,9 +60,13 @@ public class AudioManager : MonoBehaviour
 
     #region 对外接口
 
+    public void PlayGridRefresh()
+    {
+        PlayOverlay(gridRefreshBGM);
+    }
+
     public void PlayerMan()
     {
-        _isShopBGM = false;
         PlayOverlay(man);
     }
 
@@ -84,10 +89,10 @@ public class AudioManager : MonoBehaviour
     }
 
     #endregion
-    
-    public void PlayOverlay(AudioClip clip, float volume = 1f)
+
+    private void PlayOverlay(AudioClip clip, float volume = 1f)
     {
-        if (clip == null) return;
+        if (!clip) return;
         overlaySource.PlayOneShot(clip, volume * overlayVolume);
     }
 

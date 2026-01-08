@@ -889,7 +889,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
-  m_Color: {r: 0.18912424, g: 0.25569698, b: 0.3207547, a: 0.54901963}
+  m_Color: {r: 0.067684226, g: 0.09516287, b: 0.122641504, a: 0.54901963}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2404,6 +2404,7 @@ MonoBehaviour:
   mainBGM: {fileID: 8300000, guid: fefd518c77e058f4f89ea47d11e5b600, type: 3}
   shopBGM: {fileID: 8300000, guid: ff9dc58a7393f0b4e918a8bafc4ec9f8, type: 3}
   gameOverBGM: {fileID: 8300000, guid: 3091513ebedc9a141a88025077e0789f, type: 3}
+  gridRefreshBGM: {fileID: 8300000, guid: 70a548ba35f89de4298a77ffbd1654e4, type: 3}
   overlayVolume: 0.5
   overlaySource: {fileID: 1810265140}
   man: {fileID: 8300000, guid: add16ca44446dda46937bfb831a35613, type: 3}
@@ -2902,7 +2903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.GameManager
   score: 0
-  roundCount: 3
+  roundCount: 10
   roundTime: 30
   gridManager: {fileID: 134129527}
   specialCardManager: {fileID: 2083823091}
@@ -2955,7 +2956,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76470eca7a824c9bbb0756adbb9494ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.ShopManager
-  money: 900
+  money: 0
   moneyText: {fileID: 1476944754}
   toolCards:
   - cardPrefab: {fileID: -2107727325223049237, guid: 81f35ab302db43e4390479127bc07f84, type: 3}
