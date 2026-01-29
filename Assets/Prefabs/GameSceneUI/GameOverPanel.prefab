@@ -493,7 +493,7 @@ MonoBehaviour:
   properties:
     priority: 3
   exitButton: {fileID: 1149640626540680102}
-  scoreText: {fileID: 0}
+  scoreText: {fileID: 2051986105935542443}
 --- !u!114 &8437931440230297070
 MonoBehaviour:
   m_ObjectHideFlags: 0
