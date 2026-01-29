@@ -2904,7 +2904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameProcessor.GameManager
   score: 0
   roundCount: 3
-  roundTime: 9999999
+  roundTime: 30
   gridManager: {fileID: 134129527}
   specialCardManager: {fileID: 2083823091}
   missionManager: {fileID: 2083823092}

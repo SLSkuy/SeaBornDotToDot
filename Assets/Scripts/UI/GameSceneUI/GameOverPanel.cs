@@ -16,7 +16,8 @@ namespace UI.GameSceneUI
 
         private void OnEnable()
         {
-            scoreText.text = "最终分数：" + GameManager.Instance.score;
+            if(GameManager.Instance != null)
+                scoreText.text = "最终分数：" + GameManager.Instance.score;
         }
     }
 }
